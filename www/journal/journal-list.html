@@ -1,0 +1,114 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="journal-entry.html">
+<!-- <link rel="import" href="new-journal.html"> -->
+<link rel="import" href="../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-localstorage/iron-localstorage.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="journal-list">
+    <style>
+        .journals {
+            overflow: auto;
+            width: 40%;
+            height: 400px;
+        }
+        ul {
+            list-style: none;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        li + li {
+            border-top: solid 1px #666;
+        }
+
+        .new-journal {
+            vertical-align: -50%;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+    </style>
+
+    <template>
+<!--         <iron-ajax
+            auto
+            url="journals.json"
+            handle-as="json"
+            last-response="{{journals}}">
+        </iron-ajax> -->
+        <iron-localstorage
+            name="my-app-storage"
+            value="{{journals}}"
+            on-iron-localstorage-load-empty="initializeDefaultJournal">
+        </iron-localstorage>
+
+        <div style="padding:20px">
+        <paper-material elevation=5 class="journals">
+            <ul>
+                <template is="dom-repeat" items="{{journals}}">
+                    <li>
+                        <journal-entry 
+                            name="{{item.name}}"
+                            text="{{item.text}}">
+                        </journal-entry>
+                    </li>
+                </template>
+            </ul>
+            <div class="new-journal">
+                <form is="iron-form" id="jform" method="POST" action="/">
+                    <!-- <input type="hidden" name="action" value="jform"> -->
+                    <paper-input id="name_field" name="title" label="New Title" required></paper-input>
+                    <paper-textarea id="text_field" name="text" label="New Journal Entry" required></paper-textarea>
+                    <paper-button id="sub_but" raised onclick="_handleSubmit()">Submit</paper-button>
+                    <div class="output"></div>
+                </form>
+                </div>
+        </paper-material>
+    </div>
+    </template>
+
+</dom-module>
+
+
+
+<script>
+    function _handleSubmit() {
+        document.getElementById("jform").submit()
+    }
+
+    Polymer({
+        is: "journal-list",
+
+        properties: {
+            scroll: "true"
+        },
+
+        listeners: {
+            'iron-form-submit': '_handleSubmit'
+        },
+
+        initializeDefaultJournal: function() {
+            this.journals = [{
+                'name': "Absolom",
+                'text': "This is some text about Absolom, which is a citystate in Pathfinder"
+            }]
+        },
+
+        doSend: function(n, t) {
+            
+        },
+
+        _handleSubmit: function(e) {
+            journal = document.getElementById('jform').serialize();
+            this.push('journals', {name:journal.title, text:journal.text});
+            document.getElementById("text_field").value = "";
+            document.getElementById("name_field").value = "";
+        }
+
+    });
+</script>

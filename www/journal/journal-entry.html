@@ -1,0 +1,65 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+
+<dom-module id="journal-entry">
+    <style>
+
+        .listing-wrapper {
+            display: flex;
+            padding: 10px;
+        }
+        
+        h3 {
+            margin: 0 40px 0 0;
+            line-height: 80px;
+        }
+        .listing-wrapper span {
+            /*line-height: 80px;*/
+        }
+        button {
+            width: 100%;
+            text-align: left;
+            border: 0px;
+            background-color: #FFF;
+        }
+        button:focus {
+            outline:0;
+        }
+       
+    </style>
+
+    <template>
+        <button on-click="toggle">{{name}}
+        <iron-collapse id="collapse">
+        <div class="listing-wrapper">
+            <span>{{text}}</span>
+        </div>
+        <iron-collapse>
+        </button>
+    </template>
+
+</dom-module>
+
+<script>
+    Polymer({
+        is: "journal-entry",
+
+        properties: {
+            name: String,
+            text: String,
+            ftext: {
+                type: String,
+                computed: 'formatString(text)'
+            }
+        },
+
+        formatString: function(text) {
+            return text.replace(/(\r\n|\n|\r)/g,"<br />");
+        },
+
+        toggle: function() {
+            this.$.collapse.toggle();
+        }
+    });
+</script>
