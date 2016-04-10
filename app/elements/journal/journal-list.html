@@ -42,7 +42,7 @@
             <ul>
                 <template id="jList" is="dom-repeat" items="{{journals}}">
                     <li>
-                        <journal-entry 
+                        <journal-entry
                             name="{{item.name}}"
                             text="{{item.text}}">
                         </journal-entry>
@@ -71,25 +71,26 @@
         document.getElementById(event.srcElement.parentElement.id).submit(event)
     }
 
-    var ele = document.querySelector("journal-list");
-        ele.addEventListener('djournal',
-            function(e) {
-                for(var i=0;i<this.journals.length;i++) {
-                    if(this.journals[i].name === e.target.name && this.journals[i].text === e.target.text) {
-                        this.journals.splice(i,1);
-                    }
-                }
-                if(null == this.journals) {
-                    this.set('journals', []);
-                }
-                ele._redraw();
-            })
-
     Polymer({
         is: "journal-list",
 
         _redraw: function() {
             this.$.jList.render();
+        },
+
+        ready: function() {
+          this.addEventListener('djournal',
+            function(e) {
+              for(var i=0;i<this.journals.length;i++) {
+                  if(this.journals[i].name === e.target.name && this.journals[i].text === e.target.text) {
+                      this.journals.splice(i,1);
+                  }
+              }
+              if(null == this.journals) {
+                  this.set('journals', []);
+              }
+              this._redraw();
+            })
         },
 
         properties: {

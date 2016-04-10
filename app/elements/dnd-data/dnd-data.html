@@ -1,0 +1,84 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
+<link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
+
+
+<dom-module id="dnd-data">
+
+  <template>
+
+    <style>
+
+    </style>
+
+    <firebase-collection location="{{userLocation}}"
+                         data="{{fbData}}"
+                         on-firebase-value="_firebaseLoaded">
+    </firebase-collection>
+
+    <!-- Backfill todos from localstorage. This prevents an initial flash while
+         we're waiting to hear from Firebase, and it lets the user see their
+         old todos if they start the app offline.
+         This SHOULD NOT write to Firebase. If the user has cleared their
+         localstorage, it should not nullify everything saved in Firebase. -->
+    <iron-localstorage name="dda"
+                       on-iron-localstorage-load="_backupLoaded"
+                       value="{{backupData}}">
+    </iron-localstorage>
+
+  </template>
+  <script>
+    Polymer({
+
+      is: 'dnd-data',
+
+      properties: {
+
+        data: {
+          notify: true
+        },
+
+        user: {
+          observer: '_userChanged'
+        },
+
+        _firebaseConnected: {
+          value: false
+        }
+
+      },
+
+      // Setup user ref in firebase if auth succeeds
+      _userChanged: function(user) {
+        if (user) {
+          this.userLocation = [this.location, 'users', this.user.uid].join('/');
+        }
+      },
+
+      _firebaseLoaded: function() {
+        this._firebaseConnected = true;
+        this.data = this.fbData;
+        this.backupData = this.fbData;
+        this.linkPaths('fbData', 'data');
+        this.linkPaths('backupData', 'data');
+      },
+
+      _backupLoaded: function() {
+        if (!this._firebaseConnected) {
+          this.data = this.backupData.slice();
+        }
+      }
+
+    });
+
+  </script>
+</dom-module>

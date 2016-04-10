@@ -28,6 +28,8 @@
     "paper-input": "PolymerElements/paper-input#^1.1.10",
     "paper-button": "PolymerElements/paper-button#^1.0.11",
     "iron-localstorage": "PolymerElements/iron-localstorage#^1.0.5",
-    "firebase-element": "GoogleWebComponents/firebase-element#^1.0.7"
+    "firebase-element": "GoogleWebComponents/firebase-element#^1.0.7",
+    "paper-elements": "PolymerElements/paper-elements#^1.0.1",
+    "neon-elements": "PolymerElements/neon-elements#^1.0.0"
   }
 }
