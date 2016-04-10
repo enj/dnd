@@ -19,9 +19,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   // Let the user know that offline caching has worked and their
   // app is available offline
-  app.displayInstalledToast = function() {
-    document.querySelector('#caching-complete').show();
-  };
+  // app.displayInstalledToast = function() {
+  //   document.querySelector('#caching-complete').show();
+  // };
 
   app.signOut = function() {
     this.$.auth.signOut();

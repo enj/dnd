@@ -1,0 +1,60 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!-- Add your elements here -->
+<link rel="import" href="../journal/journal-list.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<dom-module id="dnd-view">
+
+  <template>
+
+    <journal-list></journal-list>
+
+    <paper-button on-tap="addJournal">Add Journal</paper-button>
+    <paper-button on-tap="addHP">Add HP</paper-button>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'dnd-view',
+
+      properties: {
+
+        hpData: {
+            notify: true
+        },
+
+        journalData: {
+            notify: true
+        },
+
+      },
+
+      addHP: function(e) {
+        console.log(this.hpData);
+        this.hpData = {"no":[1,2]};
+        console.log(this.hpData);
+      },
+
+      addJournal: function(e) {
+        console.log(this.journalData);
+        this.push('journalData', {
+          label: 1,
+          isComplete: false
+        });
+        console.log(this.journalData);
+      },
+
+    });
+  </script>
+</dom-module>

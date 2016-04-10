@@ -8,29 +8,25 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
+<link rel="import" href="../../bower_components/firebase-element/firebase-document.html">
 <link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
 
 
-<dom-module id="dnd-data">
+<dom-module id="dnd-doc-data">
 
   <template>
 
-    <style>
-
-    </style>
-
-    <firebase-collection location="{{userLocation}}"
+    <firebase-document location="{{userLocation}}"
                          data="{{fbData}}"
                          on-firebase-value="_firebaseLoaded">
-    </firebase-collection>
+    </firebase-document>
 
     <!-- Backfill todos from localstorage. This prevents an initial flash while
          we're waiting to hear from Firebase, and it lets the user see their
          old todos if they start the app offline.
          This SHOULD NOT write to Firebase. If the user has cleared their
          localstorage, it should not nullify everything saved in Firebase. -->
-    <iron-localstorage name="dda"
+    <iron-localstorage name="{{cid}}_{{namespace}}"
                        on-iron-localstorage-load="_backupLoaded"
                        value="{{backupData}}">
     </iron-localstorage>
@@ -39,12 +35,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script>
     Polymer({
 
-      is: 'dnd-data',
+      is: 'dnd-doc-data',
 
       properties: {
 
         data: {
-          notify: true
+          notify: true,
+          observer: '_dataChanged'
         },
 
         user: {
@@ -53,28 +50,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         _firebaseConnected: {
           value: false
-        }
+      },
+
+      cid: String,
+      namespace: String,
 
       },
 
       // Setup user ref in firebase if auth succeeds
       _userChanged: function(user) {
         if (user) {
-          this.userLocation = [this.location, 'users', this.user.uid].join('/');
+          this.userLocation = [this.location, this.user.uid, this.cid, this.namespace].join('/');
         }
+      },
+
+      _dataChanged: function(newValue, oldValue) {
+          this.fbData = newValue;
+          this.backupData = newValue;
       },
 
       _firebaseLoaded: function() {
         this._firebaseConnected = true;
         this.data = this.fbData;
         this.backupData = this.fbData;
-        this.linkPaths('fbData', 'data');
-        this.linkPaths('backupData', 'data');
+        // linkPaths does not seem to work so using _dataChanged
+        // this.linkPaths('fbData', 'data');
+        // this.linkPaths('backupData', 'data');
       },
 
       _backupLoaded: function() {
         if (!this._firebaseConnected) {
-          this.data = this.backupData.slice();
+          this.data = this.backupData;
         }
       }
 

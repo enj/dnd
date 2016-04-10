@@ -32,16 +32,29 @@
 
         <dnd-auth id="auth"
                    user="{{user}}"
-                   location="[[firebaseURL]]"
-                   user="{{user}}">
+                   location="[[firebaseURL]]">
         </dnd-auth>
 
-        <dnd-data location="[[firebaseURL]]"
-                   data="{{data}}"
-                   user="{{user}}">
-        </dnd-data>
+        <dnd-doc-data id="hp"
+                    location="[[firebaseURL]]"
+                   data="{{hpData}}"
+                   user="{{user}}"
+                   cid="character2"
+                   namespace="hp">
+        </dnd-doc-data>
 
-        <journal-list></journal-list>
+        <dnd-col-data id="journal"
+                location="[[firebaseURL]]"
+                   data="{{journalData}}"
+                   user="{{user}}"
+                   cid="character2"
+                   namespace="journal">
+        </dnd-col-data>
+
+        <dnd-view id="view"
+                    hpData="{{hpData}}"
+                    journalData="{{journalData}}">
+        </dnd-view>
 
     </template>
 
