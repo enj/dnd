@@ -1,13 +1,11 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="journal-entry.html">
-<!-- <link rel="import" href="new-journal.html"> -->
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
-<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="journal-entry.html">
 
 <dom-module id="journal-list">
     <style>
@@ -27,20 +25,12 @@
         }
 
         .new-journal {
-            vertical-align: -50%;
-            padding-left: 15px;
-            padding-right: 15px;
+            padding: 0px 15px 15px 15px;
         }
 
     </style>
 
     <template>
-<!--         <iron-ajax
-            auto
-            url="journals.json"
-            handle-as="json"
-            last-response="{{journals}}">
-        </iron-ajax> -->
         <iron-localstorage
             name="my-app-storage"
             value="{{journals}}"
@@ -50,7 +40,7 @@
         <div style="padding:20px">
         <paper-material elevation=5 class="journals">
             <ul>
-                <template is="dom-repeat" items="{{journals}}">
+                <template id="jList" is="dom-repeat" items="{{journals}}">
                     <li>
                         <journal-entry 
                             name="{{item.name}}"
@@ -61,10 +51,9 @@
             </ul>
             <div class="new-journal">
                 <form is="iron-form" id="jform" method="POST" action="/">
-                    <!-- <input type="hidden" name="action" value="jform"> -->
                     <paper-input id="name_field" name="title" label="New Title" required></paper-input>
                     <paper-textarea id="text_field" name="text" label="New Journal Entry" required></paper-textarea>
-                    <paper-button id="sub_but" raised onclick="_handleSubmit()">Submit</paper-button>
+                    <paper-button id="sub_but" raised onclick="_handleSubmit(event)">Save</paper-button>
                     <div class="output"></div>
                 </form>
                 </div>
@@ -77,15 +66,38 @@
 
 
 <script>
-    function _handleSubmit() {
-        document.getElementById("jform").submit()
+    function _handleSubmit(event) {
+        //console.log(event.srcElement.parentElement.id);
+        document.getElementById(event.srcElement.parentElement.id).submit(event)
     }
+
+    var ele = document.querySelector("journal-list");
+        ele.addEventListener('djournal',
+            function(e) {
+                for(var i=0;i<this.journals.length;i++) {
+                    if(this.journals[i].name === e.target.name && this.journals[i].text === e.target.text) {
+                        this.journals.splice(i,1);
+                    }
+                }
+                if(null == this.journals) {
+                    this.set('journals', []);
+                }
+                ele._redraw();
+            })
 
     Polymer({
         is: "journal-list",
 
+        _redraw: function() {
+            this.$.jList.render();
+        },
+
         properties: {
-            scroll: "true"
+            scroll: "true",
+            journals: {
+                type: Array,
+                notify: true
+            }
         },
 
         listeners: {
