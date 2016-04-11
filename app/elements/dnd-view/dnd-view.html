@@ -39,7 +39,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       addHP: function(e) {
         if (this.$.hpInput.value) {
-            app.hpData = {maxHP: this.$.hpInput.value};
+            app.hpData = {maxHP: parseInt(this.$.hpInput.value)};
             this.$.hpInput.value = null;
         }
       },

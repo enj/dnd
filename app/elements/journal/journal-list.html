@@ -49,10 +49,10 @@
                 </template>
             </ul>
             <div class="new-journal">
-                <form is="iron-form" id="jform" method="POST" action="/">
+                <form is="iron-form" id="jform">
                     <paper-input id="name_field" name="name" label="New Title" required></paper-input>
                     <paper-textarea id="text_field" name="text" label="New Journal Entry" required></paper-textarea>
-                    <paper-button id="sub_but" raised onclick="_handleSubmit(event)">Save</paper-button>
+                    <paper-button id="sub_but" raised on-tap="_handleSubmit">Save</paper-button>
                     <div class="output"></div>
                 </form>
                 </div>
@@ -65,11 +65,6 @@
 
 
 <script>
-    function _handleSubmit(event) {
-        //console.log(event.srcElement.parentElement.id);
-        document.getElementById(event.srcElement.parentElement.id).submit(event)
-    }
-
     Polymer({
         is: "journal-list",
 
@@ -85,22 +80,18 @@
             }
         },
 
-        listeners: {
-            'iron-form-submit': '_handleSubmit'
-        },
-
         _updateJournals: function(e) {
             this.journals = app.$.journal.fbData;
             this._redraw();
         },
 
         _handleSubmit: function(e) {
-            var entry = document.getElementById('jform').serialize();
+            var entry = this.$.jform.serialize();
             var appjournal = app.$.journal.$.ref;
             appjournal.add(entry);
 
-            document.getElementById("text_field").value = "";
-            document.getElementById("name_field").value = "";
+            this.$.text_field.value = "";
+            this.$.name_field.value = "";
         }
 
     });
