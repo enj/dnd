@@ -27,6 +27,7 @@
         <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
     </head>
     <body>
+    <span id="browser-sync-binding"></span>
 
     <template is="dom-bind" id="app">
 
@@ -51,9 +52,7 @@
                    namespace="journal">
         </dnd-col-data>
 
-        <dnd-view id="view"
-                    hpData="{{hpData}}"
-                    journalData="{{journalData}}">
+        <dnd-view id="view">
         </dnd-view>
 
     </template>
