@@ -30,6 +30,7 @@
     "iron-localstorage": "PolymerElements/iron-localstorage#^1.0.5",
     "firebase-element": "GoogleWebComponents/firebase-element#^1.0.7",
     "paper-elements": "PolymerElements/paper-elements#^1.0.1",
-    "neon-elements": "PolymerElements/neon-elements#^1.0.0"
+    "neon-elements": "PolymerElements/neon-elements#^1.0.0",
+    "iron-signals": "PolymerElements/iron-signals#^1.0.3"
   }
 }

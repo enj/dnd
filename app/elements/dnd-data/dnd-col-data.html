@@ -32,6 +32,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                        value="{{backupData}}">
     </iron-localstorage>
 
+
   </template>
   <script>
     Polymer({
@@ -51,10 +52,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         _firebaseConnected: {
           value: false
-      },
+        },
 
-      cid: String,
-      namespace: String,
+        cid: String,
+        namespace: String,
 
       },
 
@@ -68,15 +69,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _dataChanged: function(newValue, oldValue) {
           this.fbData = newValue;
           this.backupData = newValue;
+          this.fire('iron-signal', {name: 'fbupdate', data: null});
       },
 
       _firebaseLoaded: function() {
         this._firebaseConnected = true;
         this.data = this.fbData;
         this.backupData = this.fbData;
-        // linkPaths does not seem to work so using _dataChanged
-        //this.linkPaths('fbData', 'data');
-        //this.linkPaths('backupData', 'data');
+        this.fire('iron-signal', {name:'fbupdate', data: null});
       },
 
       _backupLoaded: function() {

@@ -26,7 +26,7 @@
             outline:0;
         }
         .delete {
-            width:18.5%;
+            width:19%;
             text-align: center;
             background-color: #FAA;
         }
@@ -58,12 +58,15 @@
                 type: String,
                 notify: true
             },
-            text: String
+            text: String,
+            key: {
+                type: String,
+                notify: true
+            }
         },
 
         deleteJournal: function() {
-            this.name = "DELETE ME NOW";
-            this.fire('djournal', {message:this});
+            app.$.journal.$.ref.removeByKey(this.key);
         },
 
         toggle: function() {

@@ -31,27 +31,26 @@
     </style>
 
     <template>
-        <iron-localstorage
-            name="my-app-storage"
-            value="{{journals}}"
-            on-iron-localstorage-load-empty="initializeDefaultJournal">
-        </iron-localstorage>
+        <iron-signals
+            on-iron-signal-fbupdate="_updateJournals">
+        </iron-signals>
 
         <div style="padding:20px">
         <paper-material elevation=5 class="journals">
             <ul>
-                <template id="jList" is="dom-repeat" items="{{journals}}">
+                <template id="jList" is="dom-repeat" items="{{journals}}" as="item">
                     <li>
                         <journal-entry
                             name="{{item.name}}"
-                            text="{{item.text}}">
+                            text="{{item.text}}"
+                            key="{{item.__firebaseKey__}}">
                         </journal-entry>
                     </li>
                 </template>
             </ul>
             <div class="new-journal">
                 <form is="iron-form" id="jform" method="POST" action="/">
-                    <paper-input id="name_field" name="title" label="New Title" required></paper-input>
+                    <paper-input id="name_field" name="name" label="New Title" required></paper-input>
                     <paper-textarea id="text_field" name="text" label="New Journal Entry" required></paper-textarea>
                     <paper-button id="sub_but" raised onclick="_handleSubmit(event)">Save</paper-button>
                     <div class="output"></div>
@@ -78,21 +77,6 @@
             this.$.jList.render();
         },
 
-        ready: function() {
-          this.addEventListener('djournal',
-            function(e) {
-              for(var i=0;i<this.journals.length;i++) {
-                  if(this.journals[i].name === e.target.name && this.journals[i].text === e.target.text) {
-                      this.journals.splice(i,1);
-                  }
-              }
-              if(null == this.journals) {
-                  this.set('journals', []);
-              }
-              this._redraw();
-            })
-        },
-
         properties: {
             scroll: "true",
             journals: {
@@ -105,13 +89,16 @@
             'iron-form-submit': '_handleSubmit'
         },
 
-        initializeDefaultJournal: function() {
-            this.journals = []
+        _updateJournals: function(e) {
+            this.journals = app.$.journal.fbData;
+            this._redraw();
         },
 
         _handleSubmit: function(e) {
-            journal = document.getElementById('jform').serialize();
-            this.push('journals', {name:journal.title, text:journal.text});
+            var entry = document.getElementById('jform').serialize();
+            var appjournal = app.$.journal.$.ref;
+            appjournal.add(entry);
+
             document.getElementById("text_field").value = "";
             document.getElementById("name_field").value = "";
         }
