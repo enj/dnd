@@ -18,6 +18,11 @@
             /*width: 40%;*/
             /*height: 400px;*/
         }
+
+        paper-icon-button[toggles][active] {
+            color: #F00;
+        }
+
         ul {
             list-style: none;
             padding-left: 15px;
@@ -52,7 +57,12 @@
             <paper-material elevation=5 class="journals">
                 <paper-header-panel>
                     <paper-toolbar>
-                        <div class="paper-header">Journal</div>
+                        <table width=100%>
+                            <tr>
+                                <td><div class="paper-header">Journal</div></td>
+                                <td align="right"><paper-icon-button icon="settings" toggles on-tap="_handleEdit"></paper-icon-button></td>
+                            </tr>
+                        </table>
                     </paper-toolbar>
                     <ul>
                         <template id="jList" is="dom-repeat" items="{{journals}}" as="item">
@@ -111,6 +121,10 @@
 
             this.$.text_field.value = "";
             this.$.name_field.value = "";
+        },
+
+        _handleEdit: function(e) {
+            this.fire('iron-signal', {name: 'editjournal', data: this.namespace});
         }
 
     });
