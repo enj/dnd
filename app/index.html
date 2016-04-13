@@ -45,7 +45,12 @@
     <template is="dom-bind" id="app">
         <paper-header-panel class="flex">
             <paper-toolbar>
-                <div>D&D App</div>
+                <table width="100%">
+                    <tr>
+                        <td>D&amp;D App</td>
+                        <td width="150px" align="right"><dnd-user user="{{user}}"></dnd-user></td>
+                    </tr>
+                </table>
             </paper-toolbar>
         </paper-header-panel>
 

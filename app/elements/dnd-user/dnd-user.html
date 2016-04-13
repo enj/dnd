@@ -1,0 +1,61 @@
+<dom-module id="dnd-user">
+    <style>
+        .profile {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            padding: 5px 5px 5px 5px;
+        }
+        .udata {
+            float: left;
+        }
+    </style>
+
+    <template>
+        <img class="profile" src="[[img]]"></img>
+        <div class="udata">
+            <div>[[name]]</div>
+            <div><paper-icon-button on-tap="signOut" style="[[style]]" icon="cancel"></paper-icon-button></div>
+        </div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: "dnd-user",
+
+        properties: {
+            user: {
+              observer: '_userChanged'
+            },
+
+            name: {
+                notify: true
+            },
+
+            img: {
+                notify: true
+            },
+
+            style: {
+                notify: true
+            },
+        },
+
+        _userChanged: function(user) {
+            if (user) {
+                this.name = user.google.displayName;
+                this.img = user.google.profileImageURL;
+                this.style = "";
+            } else {
+                this.name = "";
+                this.img = "/images/google-sign-in/g-normal.png";
+                this.style = "visibility: hidden";
+            }
+        },
+
+        signOut: function() {
+            app.$.auth.signOut();
+        },
+    });
+</script>
