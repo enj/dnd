@@ -53,41 +53,38 @@
             on-iron-signal-fbupdate="_updateJournals">
         </iron-signals>
 
-        <div style="padding:20px">
-            <paper-material elevation=5 class="journals">
-                <paper-header-panel>
-                    <paper-toolbar>
-                        <table width=100%>
-                            <tr>
-                                <td><div class="paper-header">Journal</div></td>
-                                <td align="right">
-                                    <paper-icon-button id="toggle" icon="remove-circle-outline" toggles on-tap="_handleEdit">
-                                    </paper-icon-button></td>
-                            </tr>
-                        </table>
-                    </paper-toolbar>
-                    <ul>
-                        <template id="jList" is="dom-repeat" items="{{journals}}" as="item">
-                            <li>
-                                <journal-entry
-                                    name="{{item.name}}"
-                                    text="{{item.text}}"
-                                    key="{{item.__firebaseKey__}}">
-                                </journal-entry>
-                            </li>
-                        </template>
-                    </ul>
-                    <div class="new-journal">
-                        <form is="iron-form" id="jform">
-                            <paper-input id="name_field" name="name" label="New Title" required></paper-input>
-                            <paper-textarea id="text_field" name="text" label="New Journal Entry" required></paper-textarea>
-                            <paper-button id="sub_but" raised on-tap="_handleSubmit">Save</paper-button>
-                            <div class="output"></div>
-                        </form>
-                    </div>
-                </paper-header-panel>
-            </paper-material>
-        </div>
+        <paper-header-panel>
+            <paper-toolbar>
+                <table width=100%>
+                    <tr>
+                        <td><div class="paper-header">Journal</div></td>
+                        <td align="right">
+                            <paper-icon-button id="toggle" icon="remove-circle-outline" toggles on-tap="_handleEdit">
+                            </paper-icon-button>
+                        </td>
+                    </tr>
+                </table>
+            </paper-toolbar>
+            <ul>
+                <template id="jList" is="dom-repeat" items="{{journals}}" as="item">
+                    <li>
+                        <journal-entry
+                            name="{{item.name}}"
+                            text="{{item.text}}"
+                            key="{{item.__firebaseKey__}}">
+                        </journal-entry>
+                    </li>
+                </template>
+            </ul>
+            <div class="new-journal">
+                <form is="iron-form" id="jform">
+                    <paper-input id="name_field" name="name" label="New Title" required></paper-input>
+                    <paper-textarea id="text_field" name="text" label="New Journal Entry" required></paper-textarea>
+                    <paper-button id="sub_but" raised on-tap="_handleSubmit">Save</paper-button>
+                    <div class="output"></div>
+                </form>
+            </div>
+        </paper-header-panel>
     </template>
 
 </dom-module>

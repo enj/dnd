@@ -37,6 +37,34 @@
             flex-wrap: wrap;
         }
 
+        paper-material.big {
+            overflow: auto;
+            min-width: 300px;
+            max-width: 600px;
+            height: 400px;
+        }
+
+        paper-material.small {
+            overflow: auto;
+            width: 200px;
+            height: 130px;
+        }
+
+        paper-material.tall {
+            overflow: auto;
+            min-width: 140px;
+            max-width: 200px;
+            height: 500px;
+        }
+
+        div.element-padding {
+            padding: 10px;
+        }
+
+        div.container.layout.iron-flex-alignment {
+            align-items: stretch;
+        }
+
     </style>
 
     <body>
@@ -91,11 +119,45 @@
             namespace="inventory">
         </dnd-col-data>
 
-        <div class="container layout flex">
-            <div><dnd-hp></dnd-hp></div>
-            <div><journal-list></journal-list></div>
-            <div><armor-list></armor-list></div>
-            <div><inventory-list></inventory-list></div>
+        <dnd-doc-data id="as"
+            location="[[firebaseURL]]"
+            data="{{asData}}"
+            user="{{user}}"
+            cid="character2"
+            namespace="as">
+        </dnd-doc-data>
+
+        <div class="container layout iron-flex-alignment">
+
+            <div class="element-padding">
+                <paper-material elevation=5 class="small">
+                    <dnd-hp></dnd-hp>
+                </paper-material>
+            </div>
+
+            <div class="element-padding">
+                <paper-material elevation=5 class="tall">
+                    <dnd-as></dnd-as>
+                </paper-material>
+            </div>
+
+            <div class="element-padding">
+                <paper-material elevation=5 class="big">
+                    <journal-list></journal-list>
+                </paper-material>
+            </div>
+
+            <div class="element-padding">
+                <paper-material elevation=5 class="big">
+                    <armor-list></armor-list>
+                </paper-material>
+            </div>
+
+            <div class="element-padding">
+                <paper-material elevation=5 class="big">
+                    <inventory-list></inventory-list>
+                </paper-material>
+            </div>
         </div>
 
     </template>
