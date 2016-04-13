@@ -68,14 +68,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _dataChanged: function(newValue, oldValue) {
           this.fbData = newValue;
           this.backupData = newValue;
-          this.fire('iron-signal', {name: 'fbupdate', data: null});
+          this.fire('iron-signal', {name: 'fbupdate', data: this.namespace});
       },
 
       _firebaseLoaded: function() {
         this._firebaseConnected = true;
         this.data = this.fbData;
         this.backupData = this.fbData;
-        this.fire('iron-signal', {name:'fbupdate', data: null});
+        this.fire('iron-signal', {name:'fbupdate', data: this.namespace});
       },
 
       _backupLoaded: function() {

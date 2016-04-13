@@ -1,0 +1,109 @@
+<dom-module id="dnd-hp">
+    <style>
+        .hp {
+            overflow: hidden;
+            width: 200px;
+            height: 80px;
+        }
+        .hpi {
+            float: left;
+            width: 90px;
+            padding: 5px 5px 5px 5px;
+        }
+    </style>
+
+    <template>
+        <hp-validator id="chpValid" validator-name="chpValidator"></hp-validator>
+        <hp-validator id="mhpValid" validator-name="mhpValidator"></hp-validator>
+        <iron-signals
+            on-iron-signal-fbupdate="_updateHP">
+        </iron-signals>
+        <div style="padding:20px">
+            <paper-material elevation=5 class="hp">
+                <paper-input id="currentHP"
+                       class="hpi"
+                       value="{{chp}}"
+                       label="Current HP"
+                       on-keyup="setCurrentHP"
+                       auto-validate
+                       validator="chpValidator"
+                       error-message="int [-300,300]">
+                </paper-input>
+                <paper-input id="maxHP"
+                       class="hpi"
+                       value="{{mhp}}"
+                       label="Max HP"
+                       on-keyup="setMaxHP"
+                       auto-validate
+                       validator="mhpValidator"
+                       error-message="int [1,300]">
+                </paper-input>
+            </paper-material>
+        </div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: "dnd-hp",
+
+        properties: {
+            chp: {
+                type: Number,
+                notify: true
+            },
+            mhp: {
+                type: Number,
+                notify: true
+            }
+        },
+
+        _updateHP: function(e) {
+            if (e.detail === "hp") {
+                this.mhp = app.hpData.maxHP;
+                this.chp = app.hpData.currentHP;
+            }
+        },
+
+        setMaxHP: function(e) {
+            if (this.mhpValidator(this.mhp)) {
+                app.hpData = {maxHP: ~~this.mhp};
+            }
+        },
+
+        setCurrentHP: function(e) {
+            if (this.chpValidator(this.chp)) {
+                app.hpData = {currentHP: ~~this.chp};
+            }
+        },
+
+        ready: function() {
+            this.$.chpValid.validate = this.chpValidator.bind(this);
+            this.$.mhpValid.validate = this.mhpValidator.bind(this);
+        },
+
+        mhpValidator: function(v) {
+            var hp = ~~v;
+            if (v && !isNaN(v) && +v === hp && hp >= 1 && hp <= 300) {
+                return true;
+            }
+            return false;
+        },
+
+        chpValidator: function(v) {
+            var hp = ~~v;
+            if (v && !isNaN(v) && +v === hp && hp >= -300 && hp <= 300) {
+                return true;
+            }
+            return false;
+        },
+    });
+
+    Polymer({
+        is: "hp-validator",
+
+        behaviors: [
+            Polymer.IronValidatorBehavior
+        ],
+    });
+</script>
