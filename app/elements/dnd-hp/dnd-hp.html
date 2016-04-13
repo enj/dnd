@@ -60,8 +60,8 @@
 
         _updateHP: function(e) {
             if (e.detail === "hp") {
-                this.mhp = app.hpData.maxHP;
-                this.chp = app.hpData.currentHP;
+                this.mhp = app.hpData.maxHP || this.mhp;
+                this.chp = app.hpData.currentHP || this.chp;
             }
         },
 
