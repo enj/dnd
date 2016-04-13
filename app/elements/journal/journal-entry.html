@@ -6,35 +6,24 @@
             padding: 10px;
         }
         
-        h3 {
-            margin: 0 40px 0 0;
-            line-height: 80px;
-        }
-        .listing-wrapper span {
-            /*line-height: 80px;*/
-        }
         button {
             width: 100%;
             text-align: left;
             border: 0px;
             background-color: #F8F8F8;
         }
+        
         button:focus {
             outline:0;
-        }
-        .delete {
-            width:19%;
-            text-align: center;
-            background-color: #FAA;
         }
        
     </style>
 
     <template>
-        <span style="white-space: nowrap;">
-            <button style="width:80%" on-click="toggle">{{name}}</button>
-            <button id="del_but" class="delete" on-click="deleteJournal">Delete</button>
-        </span>
+        <table width=100%><tr>
+            <td><button on-click="toggle">{{name}}</button></td>
+            <td width=50 align=right><paper-icon-button style="color:red" id="del_but" icon="delete" class="delete" on-click="deleteJournal"></paper-icon-button></td>
+        </tr></table>
         <iron-collapse id="collapse">
         <button on-click="toggle">
         <div class="listing-wrapper">

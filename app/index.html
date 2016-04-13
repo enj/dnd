@@ -26,6 +26,11 @@
         <!-- Fonts -->
         <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
     </head>
+
+    <style is="custom-style" include="iron-flex iron-flex-alignment">
+
+    </style>
+
     <body>
     <span id="browser-sync-binding"></span>
 
@@ -37,24 +42,37 @@
         </dnd-auth>
 
         <dnd-doc-data id="hp"
-                    location="[[firebaseURL]]"
-                   data="{{hpData}}"
-                   user="{{user}}"
-                   cid="character2"
-                   namespace="hp">
+            location="[[firebaseURL]]"
+            data="{{hpData}}"
+            user="{{user}}"
+            cid="character2"
+            namespace="hp">
         </dnd-doc-data>
 
         <dnd-col-data id="journal"
-                location="[[firebaseURL]]"
-                   data="{{journalData}}"
-                   user="{{user}}"
-                   cid="character2"
-                   namespace="journal">
+            location="[[firebaseURL]]"
+            data="{{journalData}}"
+            user="{{user}}"
+            cid="character2"
+            namespace="journal">
         </dnd-col-data>
 
-        <dnd-hp></dnd-hp>
+        <dnd-col-data id="armor"
+            location="[[firebaseURL]]"
+            data="{{armorData}}"
+            user="{{user}}"
+            cid="character2"
+            namespace="armor">
+        </dnd-col-data>
 
-        <journal-list></journal-list>
+        <dnd-view id="view">
+        </dnd-view>
+        <div class="container layout horizontal">
+            <div><dnd-hp></dnd-hp></div>
+            <div><journal-list></journal-list></div>
+            <div><armor-list></armor-list></div>
+        </div>
+
     </template>
 
     <!-- build:js scripts/app.js -->

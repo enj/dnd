@@ -1,0 +1,39 @@
+
+<dom-module id="armor-item">
+    <template>
+        <table width=100%><tr>
+            <td>{{name}}</td>
+            <td width=80 align=center>{{armor}}</td>
+            <td width=80 align=center>{{weight}}</td>
+            <td width=50 align=right><paper-icon-button style="color:red" id="del_but" icon="delete" class="delete" on-click="deleteArmor"></paper-icon-button></td>
+        </tr></table>
+    </template>
+
+</dom-module>
+
+<script>
+    Polymer({
+        is: "armor-item",
+
+        properties: {
+            name: {
+                type: String,
+                notify: true
+            },
+            armor: Number,
+            weight: Number,
+            key: {
+                type: String,
+                notify: true
+            }
+        },
+
+        created: function() {
+            console.log("Is this running?");
+        },
+
+        deleteArmor: function() {
+            app.$.armor.$.ref.removeByKey(this.key);
+        }
+    });
+</script>
