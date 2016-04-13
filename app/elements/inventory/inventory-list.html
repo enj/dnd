@@ -7,6 +7,7 @@
 			overflow: auto;
             min-width: 300px;
             max-width: 500px;
+            height: 400px;
 		}
 
 		ul {
@@ -26,6 +27,16 @@
         table {
         	color: #888;
         }
+
+        paper-toolbar {
+            background-color: #800;
+            height: 40px;
+
+          --paper-toolbar: {
+            @apply(--layout-vertical);
+          };
+        }
+
 	</style>
 
 	<template>
@@ -36,7 +47,10 @@
         <div style="padding:20px">
 
 	        <paper-material elevation=5 class="inventory-items">
-	        	<div style="text-align:center"><h2>Inventory</h2></div>
+            <paper-header-panel>
+                    <paper-toolbar>
+                        <div class="paper-header">Inventory</div>
+                    </paper-toolbar>
 	        	<ul>
 	        		<table width=100%><tr>
 	                    <td>Inventory Item</td>
@@ -69,7 +83,7 @@
 	                </form>
 	            </div>
 	            </iron-collapse>
-
+            </paper-header-panel>
 	        </paper-material>
         </div>
 

@@ -3,13 +3,23 @@
         .hp {
             overflow: hidden;
             width: 200px;
-            height: 80px;
+            height: 120px;
         }
         .hpi {
             float: left;
             width: 90px;
             padding: 5px 5px 5px 5px;
         }
+
+        paper-toolbar {
+            background-color: #800;
+            height: 40px;
+
+          --paper-toolbar: {
+            @apply(--layout-vertical);
+          };
+        }
+
     </style>
 
     <template>
@@ -20,6 +30,10 @@
         </iron-signals>
         <div style="padding:20px">
             <paper-material elevation=5 class="hp">
+            <paper-header-panel>
+                    <paper-toolbar>
+                        <div class="paper-header">Hit Points</div>
+                    </paper-toolbar>
                 <paper-input id="currentHP"
                        class="hpi"
                        value="{{chp}}"
@@ -38,6 +52,7 @@
                        validator="mhpValidator"
                        error-message="int [1,300]">
                 </paper-input>
+            </paper-header-panel>
             </paper-material>
         </div>
     </template>

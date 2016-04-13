@@ -1,6 +1,5 @@
 <dom-module id="journal-entry">
     <style>
-
         .listing-wrapper {
             display: flex;
             padding: 10px;
@@ -12,7 +11,7 @@
             border: 0px;
             background-color: #F8F8F8;
         }
-        
+
         button:focus {
             outline:0;
         }
@@ -22,7 +21,7 @@
     <template>
         <table width=100%><tr>
             <td><button on-click="toggle">{{name}}</button></td>
-            <td width=50 align=right><paper-icon-button style="color:red" id="del_but" icon="delete" class="delete" on-click="deleteJournal"></paper-icon-button></td>
+            <td width=50 align=right><paper-icon-button style="color:#B00" id="del_but" icon="delete" class="delete" on-click="deleteJournal"></paper-icon-button></td>
         </tr></table>
         <iron-collapse id="collapse">
         <button on-click="toggle">

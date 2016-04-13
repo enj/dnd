@@ -31,10 +31,23 @@
 
     </style>
 
+    <style>
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+    </style>
+
     <body>
     <span id="browser-sync-binding"></span>
 
     <template is="dom-bind" id="app">
+        <paper-header-panel class="flex">
+            <paper-toolbar>
+                <div>D&D App</div>
+            </paper-toolbar>
+        </paper-header-panel>
 
         <dnd-auth id="auth"
                    user="{{user}}"
@@ -73,9 +86,7 @@
             namespace="inventory">
         </dnd-col-data>
 
-        <dnd-view id="view">
-        </dnd-view>
-        <div class="container layout horizontal">
+        <div class="container layout flex">
             <div><dnd-hp></dnd-hp></div>
             <div><journal-list></journal-list></div>
             <div><armor-list></armor-list></div>

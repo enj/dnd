@@ -2,10 +2,19 @@
 
 <dom-module id="journal-list">
     <style>
+
+        .item {
+            display: flex;
+            /*flex: flex-grow;*/
+            flex-grow: 3;
+            flex-basis: auto;
+        }
+
         .journals {
             overflow: auto;
             min-width: 300px;
             max-width: 600px;
+            height: 400px;
             /*width: 40%;*/
             /*height: 400px;*/
         }
@@ -23,6 +32,15 @@
             padding: 0px 15px 15px 15px;
         }
 
+        paper-toolbar {
+            background-color: #800;
+            height: 40px;
+
+          --paper-toolbar: {
+            @apply(--layout-vertical);
+          };
+        }
+
     </style>
 
     <template>
@@ -31,28 +49,33 @@
         </iron-signals>
 
         <div style="padding:20px">
-        <paper-material elevation=5 class="journals">
-            <ul>
-                <template id="jList" is="dom-repeat" items="{{journals}}" as="item">
-                    <li>
-                        <journal-entry
-                            name="{{item.name}}"
-                            text="{{item.text}}"
-                            key="{{item.__firebaseKey__}}">
-                        </journal-entry>
-                    </li>
-                </template>
-            </ul>
-            <div class="new-journal">
-                <form is="iron-form" id="jform">
-                    <paper-input id="name_field" name="name" label="New Title" required></paper-input>
-                    <paper-textarea id="text_field" name="text" label="New Journal Entry" required></paper-textarea>
-                    <paper-button id="sub_but" raised on-tap="_handleSubmit">Save</paper-button>
-                    <div class="output"></div>
-                </form>
-                </div>
-        </paper-material>
-    </div>
+            <paper-material elevation=5 class="journals">
+                <paper-header-panel>
+                    <paper-toolbar>
+                        <div class="paper-header">Journal</div>
+                    </paper-toolbar>
+                    <ul>
+                        <template id="jList" is="dom-repeat" items="{{journals}}" as="item">
+                            <li>
+                                <journal-entry
+                                    name="{{item.name}}"
+                                    text="{{item.text}}"
+                                    key="{{item.__firebaseKey__}}">
+                                </journal-entry>
+                            </li>
+                        </template>
+                    </ul>
+                    <div class="new-journal">
+                        <form is="iron-form" id="jform">
+                            <paper-input id="name_field" name="name" label="New Title" required></paper-input>
+                            <paper-textarea id="text_field" name="text" label="New Journal Entry" required></paper-textarea>
+                            <paper-button id="sub_but" raised on-tap="_handleSubmit">Save</paper-button>
+                            <div class="output"></div>
+                        </form>
+                    </div>
+                </paper-header-panel>
+            </paper-material>
+        </div>
     </template>
 
 </dom-module>
