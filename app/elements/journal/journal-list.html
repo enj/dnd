@@ -79,6 +79,7 @@
         },
 
         _handleSubmit: function(e) {
+            if(!this.$.jform.validate()) return;
             var entry = this.$.jform.serialize();
             var appjournal = app.$.journal.$.ref;
             appjournal.add(entry);
