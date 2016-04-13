@@ -27,10 +27,6 @@
             padding: 0px 15px 15px 15px;
         }
 
-        table {
-            color: #888;
-        }
-
         paper-toolbar {
             background-color: #800;
             height: 40px;
@@ -38,6 +34,10 @@
           --paper-toolbar: {
             @apply(--layout-vertical);
           };
+        }
+
+        paper-icon-button[toggles][active] {
+            color: #F00;
         }
 
     </style>
@@ -51,10 +51,17 @@
         <paper-material elevation=5 class="armor-items">
             <paper-header-panel>
                 <paper-toolbar>
-                    <div class="paper-header">Armor</div>
+                    <table width=100%>
+                            <tr>
+                                <td><div class="paper-header">Armor</div></td>
+                                <td align="right">
+                                <paper-icon-button id="toggle" icon="remove-circle-outline" toggles on-tap="_handleEdit">
+                                </paper-icon-button></td>
+                            </tr>
+                        </table>
                 </paper-toolbar>
             <ul>
-                <table width=100%><tr>
+                <table width=100% style="color: #888;"><tr>
                     <td>Armor Item</td>
                     <td width=80 align=center>Armor</td>
                     <td width=80 align=center>Weight</td>
@@ -110,10 +117,17 @@
 
         _updateArmor: function(e) {
             this.armor = app.$.armor.fbData;
+            if(this.armor.length == 0) {
+                this.$.toggle.active = false;
+            }
             this._redraw();
         },
 
         _handleSubmit: function(e) {
+            if(this.$.toggle.active) {
+                this.$.toggle.active = false;
+                this._handleEdit(e);
+            }
             var entry = this.$.aform.serialize();
             if(!this.$.aform.validate()) return;
             var apparmor = app.$.armor.$.ref;
@@ -126,6 +140,14 @@
 
         toggle: function() {
             this.$.collapse.toggle();
+        },
+
+        _handleEdit: function(e) {
+            if(this.armor.length == 0) {
+                this.$.toggle.active = false;
+                return;
+            }
+            this.fire('iron-signal', {name: 'editarmor', data: this.namespace});
         }
 
     });

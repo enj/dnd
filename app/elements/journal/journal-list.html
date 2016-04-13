@@ -60,7 +60,9 @@
                         <table width=100%>
                             <tr>
                                 <td><div class="paper-header">Journal</div></td>
-                                <td align="right"><paper-icon-button icon="settings" toggles on-tap="_handleEdit"></paper-icon-button></td>
+                                <td align="right">
+                                    <paper-icon-button id="toggle" icon="remove-circle-outline" toggles on-tap="_handleEdit">
+                                    </paper-icon-button></td>
                             </tr>
                         </table>
                     </paper-toolbar>
@@ -110,10 +112,17 @@
 
         _updateJournals: function(e) {
             this.journals = app.$.journal.fbData;
+            if(this.journals.length == 0) {
+                this.$.toggle.active = false;
+            }
             this._redraw();
         },
 
         _handleSubmit: function(e) {
+            if(this.$.toggle.active) {
+                this.$.toggle.active = false;
+                this._handleEdit(e);
+            }
             if(!this.$.jform.validate()) return;
             var entry = this.$.jform.serialize();
             var appjournal = app.$.journal.$.ref;
@@ -124,6 +133,10 @@
         },
 
         _handleEdit: function(e) {
+            if(this.journals.length == 0) {
+                this.$.toggle.active = false;
+                return;
+            }
             this.fire('iron-signal', {name: 'editjournal', data: this.namespace});
         }
 
