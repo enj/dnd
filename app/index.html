@@ -65,12 +65,21 @@
             namespace="armor">
         </dnd-col-data>
 
+        <dnd-col-data id="inventory"
+            location="[[firebaseURL]]"
+            data="{{inventoryData}}"
+            user="{{user}}"
+            cid="character2"
+            namespace="inventory">
+        </dnd-col-data>
+
         <dnd-view id="view">
         </dnd-view>
         <div class="container layout horizontal">
             <div><dnd-hp></dnd-hp></div>
             <div><journal-list></journal-list></div>
             <div><armor-list></armor-list></div>
+            <div><inventory-list></inventory-list></div>
         </div>
 
     </template>

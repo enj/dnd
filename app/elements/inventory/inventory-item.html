@@ -1,0 +1,42 @@
+
+<dom-module id="inventory-item">
+    <template>
+        <table width=100%><tr>
+            <td>{{name}}</td>
+            <td width=80 align=center>{{qty}}</td>
+            <td width=80 align=center>{{weight}}</td>
+            <td width=50 align=right><paper-icon-button style="color:red" id="del_but" icon="delete" class="delete" on-click="deleteInvItem"></paper-icon-button></td>
+        </tr></table>
+    </template>
+
+</dom-module>
+
+<script>
+    Polymer({
+        is: "inventory-item",
+
+        properties: {
+            name: {
+                type: String,
+                notify: true
+            },
+            qty: {
+                type: Number,
+                notify: true
+            },
+            weight: Number,
+            key: {
+                type: String,
+                notify: true
+            }
+        },
+
+        created: function() {
+            console.log("Is this running?");
+        },
+
+        deleteInvItem: function() {
+            app.$.inventory.$.ref.removeByKey(this.key);
+        }
+    });
+</script>

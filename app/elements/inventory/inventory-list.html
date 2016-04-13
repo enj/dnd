@@ -1,0 +1,119 @@
+<link rel="import" href="inventory-item.html">
+
+<dom-module id="inventory-list">
+
+	<style>
+		.inventory-items {
+			overflow: auto;
+            min-width: 300px;
+            max-width: 500px;
+		}
+
+		ul {
+            list-style: none;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        li + li {
+            border-top: solid 1px #666;
+        }
+
+        .add-inv-item {
+            padding: 0px 15px 15px 15px;
+        }
+
+        table {
+        	color: #888;
+        }
+	</style>
+
+	<template>
+		<iron-signals
+            on-iron-signal-fbupdate="_updateInventory">
+        </iron-signals>
+
+        <div style="padding:20px">
+
+	        <paper-material elevation=5 class="inventory-items">
+	        	<div style="text-align:center"><h2>Inventory</h2></div>
+	        	<ul>
+	        		<table width=100%><tr>
+	                    <td>Inventory Item</td>
+	                    <td width=80 align=center>Qty</td>
+	                    <td width=80 align=center>Weight</td>
+	                    <td width=50 align=right></td>
+	                </table>
+	                <template id="inventoryList" is="dom-repeat" items="{{inventory}}" as="item">
+	                    <li>
+	                        <inventory-item
+	                            name="{{item.name}}"
+	                            qty="{{item.qty}}"
+	                            weight="{{item.weight}}"
+	                            key="{{item.__firebaseKey__}}">
+	                        </inventory-item>
+	                    </li>
+	                </template>
+	        	</ul>
+
+	        	<paper-icon-button icon="add" style="color: green;float: right;" title="test" on-click="toggle"  >blah</paper-icon-button>
+
+	            <iron-collapse id="collapse">
+	            <div class="add-inv-item">
+	                <form is="iron-form" id="aform">
+	                    <paper-input id="name_field" name="name" label="Name" required></paper-input>
+	                    <paper-input id="weight_field" type="number" name="weight" label="Weight"></paper-input>
+	                    <paper-input id="qty_field" type="number" name="qty" label="Quantity" value=1></paper-input>
+	                    <paper-button id="add_but" raised on-tap="_handleSubmit">Save</paper-button>
+	                    <div class="output"></div>
+	                </form>
+	            </div>
+	            </iron-collapse>
+
+	        </paper-material>
+        </div>
+
+	</template>
+
+</dom-module>
+
+<script>
+
+	Polymer({
+        is: "inventory-list",
+
+        _redraw: function() {
+            this.$.inventoryList.render();
+        },
+
+        properties: {
+            scroll: "true",
+            inventory: {
+                type: Array,
+                notify: true
+            }
+        },
+
+        _updateInventory: function(e) {
+            this.inventory = app.$.inventory.fbData;
+            this._redraw();
+        },
+
+        _handleSubmit: function(e) {
+            var entry = this.$.aform.serialize();
+            if(!this.$.aform.validate()) return;
+            var appinventory = app.$.inventory.$.ref;
+            appinventory.add(entry);
+
+            this.$.name_field.value = "";
+            this.$.weight_field.value = "";
+            this.$.qty_field.value = 1;
+        },
+
+        toggle: function() {
+            this.$.collapse.toggle();
+        }
+
+    });
+
+</script>
