@@ -96,6 +96,7 @@
 
         _handleSubmit: function(e) {
             var entry = this.$.aform.serialize();
+            if(!this.$.aform.validate()) return;
             var apparmor = app.$.armor.$.ref;
             apparmor.add(entry);
 
