@@ -35,7 +35,7 @@
         },
 
         _updateSkill: function(e) {
-            if (e.detail === "as" && app.asData[this.kind]) {
+            if (e.detail === "as" && app.asData[this.kind] !== undefined) {
                 // hack to recalculate computed score value
                 var k = this.kind;
                 this.kind = undefined;
