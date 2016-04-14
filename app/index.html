@@ -119,6 +119,14 @@
             namespace="inventory">
         </dnd-col-data>
 
+        <dnd-col-data id="weapons"
+            location="[[firebaseURL]]"
+            data="{{weaponsData}}"
+            user="{{user}}"
+            cid="character2"
+            namespace="weapons">
+        </dnd-col-data>
+
         <dnd-doc-data id="as"
             location="[[firebaseURL]]"
             data="{{asData}}"
@@ -169,9 +177,16 @@
 
             <div class="element-padding">
                 <paper-material elevation=5 class="big">
-                    <inventory-list></inventory-list>
+                    <dnd-weapons></dnd-weapons>
                 </paper-material>
             </div>
+
+            
+                <paper-material elevation=5 class="big">
+                    <inventory-list></inventory-list>
+                </paper-material>
+            
+
         </div>
 
     </template>

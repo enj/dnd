@@ -1,6 +1,6 @@
-<link rel="import" href="inventory-item.html">
+<link rel="import" href="dnd-weapon.html">
 
-<dom-module id="inventory-list">
+<dom-module id="dnd-weapons">
 
 	<style>
 
@@ -14,7 +14,7 @@
             border-top: solid 1px #666;
         }
 
-        .add-inv-item {
+        .add-weapon {
             padding: 0px 15px 15px 15px;
         }
 
@@ -40,14 +40,14 @@
 
 	<template>
 		<iron-signals
-            on-iron-signal-fbupdate="_updateInventory">
+            on-iron-signal-fbupdate="_updateWeapons">
         </iron-signals>
 
             <paper-header-panel>
                     <paper-toolbar>
                         <table width=100%>
                             <tr>
-                                <td><div class="paper-header">Inventory</div></td>
+                                <td><div class="paper-header">Weapons</div></td>
                                 <td align="right">
                                 <paper-icon-button id="toggle" icon="remove-circle-outline" toggles on-tap="_handleEdit">
                                 </paper-icon-button></td>
@@ -56,42 +56,41 @@
                     </paper-toolbar>
 	        	<ul>
 	        		<table width=100% style="color: #888;"><tr>
-	                    <td width=110 >Inventory Item</td>
-	                    <td width=40 align=center>Qty</td>
-	                    <td width=60 align=center>Weight</td>
-                        <td width=45 align=center>Tot-W</td>
+	                    <td>Weapon</td>
+	                    <td width=80 align=center>Weight</td>
+                        <td width=80 align=center>Power</td>
 	                    <td width=40 align=right></td>
 	                </table>
-	                <template id="inventoryList" is="dom-repeat" items="{{inventory}}" as="item">
+	                <template id="weaponsList" is="dom-repeat" items="{{weapons}}" as="item">
 	                    <li>
-	                        <inventory-item
+	                        <dnd-weapon
 	                            name="{{item.name}}"
-	                            qty="{{item.qty}}"
 	                            weight="{{item.weight}}"
+	                            power="{{item.power}}"
 	                            key="{{item.__firebaseKey__}}">
-	                        </inventory-item>
+	                        </dnd-weapon>
 	                    </li>
 	                </template>
 	        	</ul>
 
-                <paper-icon-button icon="add-circle-outline" style="color:green" title="test" on-click="toggle"></paper-icon-button>
+                <paper-icon-button icon="add-circle-outline" style="color:green;" title="test" on-click="toggle"></paper-icon-button>
 
-	            <paper-dialog id="addInvDialog" withBackdrop="true" modal>
-    	            <div class="add-inv-item">
-                        <paper-toolbar><div class="paper-header">Add Item</div></paper-toolbar>
+	            <paper-dialog id="addWeaponDialog" withBackdrop="true" modal>
+    	            <div class="add-weapon">
+                        <paper-toolbar><div class="paper-header">Add Weapon</div></paper-toolbar>
                         <div style="padding:10px">
     	                <form is="iron-form" id="aform">
     	                    <paper-input id="name_field" name="name" label="Name" required></paper-input>
+    	                    <paper-input id="power_field" type="number" name="power" label="Power" value=0></paper-input>
     	                    <paper-input id="weight_field" type="number" name="weight" label="Weight"></paper-input>
-    	                    <paper-input id="qty_field" type="number" name="qty" label="Quantity" value=1></paper-input>
     	                    <paper-button id="add_but" raised on-tap="_handleSubmit">Save</paper-button>
                             <paper-button style="color: red !important;" raised on-tap="toggle">Cancel</paper-button>
     	                    <div class="output"></div>
     	                </form>
-
-                    </div>
+                    	</div>
     	            </div>
 	            </paper-dialog>
+
             </paper-header-panel>
 
 	</template>
@@ -101,54 +100,54 @@
 <script>
 
 	Polymer({
-        is: "inventory-list",
+        is: "dnd-weapons",
 
         _redraw: function() {
-            this.$.inventoryList.render();
+            this.$.weaponsList.render();
         },
 
         properties: {
             scroll: "true",
-            inventory: {
+            weapons: {
                 type: Array,
                 notify: true
             }
         },
 
-        _updateInventory: function(e) {
-            this.inventory = app.$.inventory.fbData;
-            if(this.inventory.length == 0) {
-                this.$.toggle.active = false;
+        _updateWeapons: function(e) {
+            this.weapons = app.$.weapons.fbData;
+            if(this.weapons.length == 0) {
+                this.$.toggleDel.active = false;
             }
             this._redraw();
         },
 
         _handleSubmit: function(e) {
-            this.$.addInvDialog.toggle();
+            this.$.addWeaponDialog.toggle();
             if(this.$.toggle.active) {
                 this.$.toggle.active = false;
-                this._handleEdit(e);
+                this._handleWEdit(e);
             }
             var entry = this.$.aform.serialize();
             if(!this.$.aform.validate()) return;
-            var appinventory = app.$.inventory.$.ref;
-            appinventory.add(entry);
+            var appweapons = app.$.weapons.$.ref;
+            appweapons.add(entry);
 
             this.$.name_field.value = "";
             this.$.weight_field.value = "";
-            this.$.qty_field.value = 1;
+            this.$.power_field.value = 0;
         },
 
         toggle: function() {
-            this.$.addInvDialog.toggle();
+            this.$.addWeaponDialog.toggle();
         },
 
         _handleEdit: function(e) {
-            if(this.inventory.length == 0) {
+            if(this.weapons.length == 0) {
                 this.$.toggle.active = false;
                 return;
             }
-            this.fire('iron-signal', {name: 'editinventory', data: this.namespace});
+            this.fire('iron-signal', {name: 'editweapons', data: this.namespace});
         }
 
     });
