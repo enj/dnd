@@ -44,9 +44,6 @@
             on-iron-signal-fbupdate="_updateInventory">
         </iron-signals>
 
-        <div style="padding:20px">
-
-	        <paper-material elevation=5 class="inventory-items">
             <paper-header-panel>
                     <paper-toolbar>
                         <table width=100%>
@@ -79,20 +76,19 @@
 
 	        	<paper-icon-button icon="add" style="color: green;float: right;" title="test" on-click="toggle"  >blah</paper-icon-button>
 
-	            <iron-collapse id="collapse">
-	            <div class="add-inv-item">
-	                <form is="iron-form" id="aform">
-	                    <paper-input id="name_field" name="name" label="Name" required></paper-input>
-	                    <paper-input id="weight_field" type="number" name="weight" label="Weight"></paper-input>
-	                    <paper-input id="qty_field" type="number" name="qty" label="Quantity" value=1></paper-input>
-	                    <paper-button id="add_but" raised on-tap="_handleSubmit">Save</paper-button>
-	                    <div class="output"></div>
-	                </form>
-	            </div>
-	            </iron-collapse>
+	            <paper-dialog id="addInvDialog" withBackdrop="true">
+    	            <div class="add-inv-item">
+                        <paper-toolbar><div class="paper-header">Add Item</div></paper-toolbar>
+    	                <form is="iron-form" id="aform">
+    	                    <paper-input id="name_field" name="name" label="Name" required></paper-input>
+    	                    <paper-input id="weight_field" type="number" name="weight" label="Weight"></paper-input>
+    	                    <paper-input id="qty_field" type="number" name="qty" label="Quantity" value=1></paper-input>
+    	                    <paper-button id="add_but" raised on-tap="_handleSubmit">Save</paper-button>
+    	                    <div class="output"></div>
+    	                </form>
+    	            </div>
+	            </paper-dialog>
             </paper-header-panel>
-	        </paper-material>
-        </div>
 
 	</template>
 
@@ -139,7 +135,7 @@
         },
 
         toggle: function() {
-            this.$.collapse.toggle();
+            this.$.addInvDialog.open();
         },
 
         _handleEdit: function(e) {
