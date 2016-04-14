@@ -1,0 +1,181 @@
+<dom-module id="dnd-as">
+    <style>
+        .asi {
+            width: 120px;
+            padding: 5px 5px 5px 5px;
+        }
+
+        paper-toolbar {
+            background-color: #800;
+            height: 40px;
+
+          --paper-toolbar: {
+            @apply(--layout-vertical);
+          };
+        }
+
+    </style>
+
+    <template>
+        <as-validator id="asValid" validator-name="asValidator"></as-validator>
+        <iron-signals
+            on-iron-signal-fbupdate="_updateAS">
+        </iron-signals>
+        <paper-header-panel>
+                <paper-toolbar>
+                    <div class="paper-header">Ability Scores</div>
+                </paper-toolbar>
+            <paper-input id="strength"
+                   class="asi"
+                   value="{{strength}}"
+                   label="Strength"
+                   on-keyup="setStrength"
+                   auto-validate
+                   validator="asValidator"
+                   error-message="int [1,20]">
+            </paper-input>
+            <paper-input id="dexterity"
+                   class="asi"
+                   value="{{dexterity}}"
+                   label="Dexterity"
+                   on-keyup="setDexterity"
+                   auto-validate
+                   validator="asValidator"
+                   error-message="int [1,20]">
+            </paper-input>
+            <paper-input id="constitution"
+                   class="asi"
+                   value="{{constitution}}"
+                   label="Constitution"
+                   on-keyup="setConstitution"
+                   auto-validate
+                   validator="asValidator"
+                   error-message="int [1,20]">
+            </paper-input>
+            <paper-input id="intelligence"
+                   class="asi"
+                   value="{{intelligence}}"
+                   label="Intelligence"
+                   on-keyup="setIntelligence"
+                   auto-validate
+                   validator="asValidator"
+                   error-message="int [1,20]">
+            </paper-input>
+            <paper-input id="wisdom"
+                   class="asi"
+                   value="{{wisdom}}"
+                   label="Wisdom"
+                   on-keyup="setWisdom"
+                   auto-validate
+                   validator="asValidator"
+                   error-message="int [1,20]">
+            </paper-input>
+            <paper-input id="charisma"
+                   class="asi"
+                   value="{{charisma}}"
+                   label="Charisma"
+                   on-keyup="setCharisma"
+                   auto-validate
+                   validator="asValidator"
+                   error-message="int [1,20]">
+            </paper-input>
+        </paper-header-panel>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: "dnd-as",
+
+        properties: {
+            strength: {
+                type: Number,
+                notify: true
+            },
+            dexterity: {
+                type: Number,
+                notify: true
+            },
+            constitution: {
+                type: Number,
+                notify: true
+            },
+            intelligence: {
+                type: Number,
+                notify: true
+            },
+            wisdom: {
+                type: Number,
+                notify: true
+            },
+            charisma: {
+                type: Number,
+                notify: true
+            },
+        },
+
+        _updateAS: function(e) {
+            app.$.as.update(e, this);
+        },
+
+        _setAS: function(key) {
+            if (this.asValidator(this[key])) {
+                var obj = {};
+                obj[key] = ~~this[key];
+                app.asData = obj;
+            }
+        },
+
+        setStrength: function(e) {
+            this._setAS("strength");
+        },
+
+        setDexterity: function(e) {
+            this._setAS("dexterity");
+        },
+
+        setConstitution: function(e) {
+            this._setAS("constitution");
+        },
+
+        setIntelligence: function(e) {
+            this._setAS("intelligence");
+        },
+
+        setWisdom: function(e) {
+            this._setAS("wisdom");
+        },
+
+        setCharisma: function(e) {
+            this._setAS("charisma");
+        },
+
+        getModifier: function(ability) {
+            var score = this[ability];
+            if (score === undefined) {
+                return -100;
+            }
+            return Math.floor((score - 10) / 2);
+        },
+
+        ready: function() {
+            this.$.asValid.validate = this.asValidator.bind(this);
+        },
+
+        asValidator: function(v) {
+            var as = ~~v;
+            if (v && !isNaN(v) && +v === as && as >= 1 && as <= 20) {
+                return true;
+            }
+            return false;
+        },
+    });
+
+    Polymer({
+        is: "as-validator",
+
+        behaviors: [
+            Polymer.IronValidatorBehavior
+        ],
+    });
+</script>

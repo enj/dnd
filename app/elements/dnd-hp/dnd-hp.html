@@ -1,10 +1,5 @@
 <dom-module id="dnd-hp">
     <style>
-        .hp {
-            overflow: hidden;
-            width: 200px;
-            height: 120px;
-        }
         .hpi {
             float: left;
             width: 90px;
@@ -28,33 +23,29 @@
         <iron-signals
             on-iron-signal-fbupdate="_updateHP">
         </iron-signals>
-        <div style="padding:20px">
-            <paper-material elevation=5 class="hp">
-            <paper-header-panel>
-                    <paper-toolbar>
-                        <div class="paper-header">Hit Points</div>
-                    </paper-toolbar>
-                <paper-input id="currentHP"
-                       class="hpi"
-                       value="{{chp}}"
-                       label="Current HP"
-                       on-keyup="setCurrentHP"
-                       auto-validate
-                       validator="chpValidator"
-                       error-message="int [-300,300]">
-                </paper-input>
-                <paper-input id="maxHP"
-                       class="hpi"
-                       value="{{mhp}}"
-                       label="Max HP"
-                       on-keyup="setMaxHP"
-                       auto-validate
-                       validator="mhpValidator"
-                       error-message="int [1,300]">
-                </paper-input>
-            </paper-header-panel>
-            </paper-material>
-        </div>
+        <paper-header-panel>
+                <paper-toolbar>
+                    <div class="paper-header">Hit Points</div>
+                </paper-toolbar>
+            <paper-input id="currentHP"
+                   class="hpi"
+                   value="{{currentHP}}"
+                   label="Current HP"
+                   on-keyup="setCurrentHP"
+                   auto-validate
+                   validator="chpValidator"
+                   error-message="int [-300,300]">
+            </paper-input>
+            <paper-input id="maxHP"
+                   class="hpi"
+                   value="{{maxHP}}"
+                   label="Max HP"
+                   on-keyup="setMaxHP"
+                   auto-validate
+                   validator="mhpValidator"
+                   error-message="int [1,300]">
+            </paper-input>
+        </paper-header-panel>
     </template>
 </dom-module>
 
@@ -63,32 +54,29 @@
         is: "dnd-hp",
 
         properties: {
-            chp: {
+            currentHP: {
                 type: Number,
                 notify: true
             },
-            mhp: {
+            maxHP: {
                 type: Number,
                 notify: true
             }
         },
 
         _updateHP: function(e) {
-            if (e.detail === "hp") {
-                this.mhp = app.hpData.maxHP || this.mhp;
-                this.chp = app.hpData.currentHP || this.chp;
-            }
+            app.$.hp.update(e, this);
         },
 
         setMaxHP: function(e) {
-            if (this.mhpValidator(this.mhp)) {
-                app.hpData = {maxHP: ~~this.mhp};
+            if (this.mhpValidator(this.maxHP)) {
+                app.hpData = {maxHP: ~~this.maxHP};
             }
         },
 
         setCurrentHP: function(e) {
-            if (this.chpValidator(this.chp)) {
-                app.hpData = {currentHP: ~~this.chp};
+            if (this.chpValidator(this.currentHP)) {
+                app.hpData = {currentHP: ~~this.currentHP};
             }
         },
 

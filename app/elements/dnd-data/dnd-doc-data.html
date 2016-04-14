@@ -81,7 +81,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         if (!this._firebaseConnected) {
           this.data = this.backupData;
         }
-      }
+      },
+
+        update: function(e, obj) {
+            if (e.detail === this.namespace) {
+                for (var key in this.data) {
+                    if (this.data.hasOwnProperty(key)) {
+                        obj[key] = this.data[key];
+                    }
+                }
+            }
+        }
 
     });
 
