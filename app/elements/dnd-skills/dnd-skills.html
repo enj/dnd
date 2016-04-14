@@ -1,0 +1,68 @@
+<link rel="import" href="dnd-skill.html">
+
+<dom-module id="dnd-skills">
+    <style>
+
+        ul {
+            list-style: none;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        li + li {
+            border-top: solid 1px #666;
+        }
+
+        paper-toolbar {
+            background-color: #800;
+            height: 40px;
+
+          --paper-toolbar: {
+            @apply(--layout-vertical);
+          };
+        }
+
+    </style>
+
+    <template>
+        <paper-header-panel>
+            <paper-toolbar>
+                <div class="paper-header">Skills</div>
+            </paper-toolbar>
+            <ul>
+                <template is="dom-repeat" items="{{skills}}" as="skill">
+                    <li>
+                        <dnd-skill
+                            key="{{skill.key}}"
+                            text="{{skill.text}}"
+                            kind="{{skill.kind}}">
+                        </dnd-skill>
+                    </li>
+                </template>
+            </ul>
+        </paper-header-panel>
+    </template>
+
+</dom-module>
+
+
+
+<script>
+    Polymer({
+        is: "dnd-skills",
+
+        properties: {
+            scroll: "true",
+            skills: {
+                type: Array,
+                notify: true,
+                value: [
+                    {key: "ath", text: "Athletics", kind: "strength"},
+                    {key: "acr", text: "Acrobatics", kind: "dexterity"},
+                    {key: "his", text: "History", kind: "intelligence"},
+                    {key: "sur", text: "Survival", kind: "wisdom"},
+                ]
+            }
+        },
+    });
+</script>

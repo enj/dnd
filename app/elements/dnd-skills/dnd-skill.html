@@ -1,0 +1,59 @@
+<dom-module id="dnd-skill">
+
+    <template>
+        <iron-signals
+            on-iron-signal-fbupdate="_updateSkill">
+        </iron-signals>
+        <table width=100% height=40><tr>
+            <td width=50 align=left><paper-icon-button id="cbutton" on-tap="_toggleCheck" icon="radio-button-unchecked"></paper-icon-button></td>
+            <td>{{text}}</td>
+            <td width=50 align=right>{{score(kind, checked)}}</td>
+        </tr></table>
+    </template>
+
+</dom-module>
+
+<script>
+    Polymer({
+        is: "dnd-skill",
+
+        properties: {
+            checked: {
+                type: Boolean,
+                notify: true,
+                observer: "_updateCheckIcon",
+                value: false
+            },
+            key: String,
+            text: String,
+            kind: String,
+        },
+
+        score: function(kind, checked) {
+            var mod = checked ? 2 : 0;
+            return app.$.asf.getModifier(kind) + mod;
+        },
+
+        _updateSkill: function(e) {
+            if (e.detail === "as" && app.asData[this.kind]) {
+                // hack to recalculate computed score value
+                var k = this.kind;
+                this.kind = undefined;
+                this.kind = k;
+            } else if (e.detail === "skills" && app.skillData[this.key] !== undefined) {
+                this.checked = app.skillData[this.key];
+            }
+        },
+
+        _toggleCheck: function(e) {
+            this.checked = !this.checked;
+            var obj = {};
+            obj[this.key] = this.checked;
+            app.skillData = obj;
+        },
+
+        _updateCheckIcon: function(checked) {
+            this.$.cbutton.icon = checked ? "check-circle" : "radio-button-unchecked";
+        },
+    });
+</script>

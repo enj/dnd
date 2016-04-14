@@ -127,6 +127,14 @@
             namespace="as">
         </dnd-doc-data>
 
+        <dnd-doc-data id="skills"
+            location="[[firebaseURL]]"
+            data="{{skillData}}"
+            user="{{user}}"
+            cid="character2"
+            namespace="skills">
+        </dnd-doc-data>
+
         <div class="container layout iron-flex-alignment">
 
             <div class="element-padding">
@@ -138,6 +146,12 @@
             <div class="element-padding">
                 <paper-material elevation=5 class="tall">
                     <dnd-as id="asf"></dnd-as>
+                </paper-material>
+            </div>
+
+            <div class="element-padding">
+                <paper-material elevation=5 class="big">
+                    <dnd-skills></dnd-skills>
                 </paper-material>
             </div>
 
