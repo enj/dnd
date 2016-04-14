@@ -61,13 +61,13 @@
                         <td width=80 align=center>Power</td>
 	                    <td width=40 align=right></td>
 	                </table>
-	                <template id="weaponsList" is="dom-repeat" items="{{weapons}}" as="item">
+	                <template id="weaponsList" is="dom-repeat" items="{{weapons}}" as="weapon">
 	                    <li>
 	                        <dnd-weapon
-	                            name="{{item.name}}"
-	                            weight="{{item.weight}}"
-	                            power="{{item.power}}"
-	                            key="{{item.__firebaseKey__}}">
+	                            name="{{weapon.name}}"
+	                            weight="{{weapon.weight}}"
+	                            power="{{weapon.power}}"
+	                            key="{{weapon.__firebaseKey__}}">
 	                        </dnd-weapon>
 	                    </li>
 	                </template>
@@ -117,7 +117,7 @@
         _updateWeapons: function(e) {
             this.weapons = app.$.weapons.fbData;
             if(this.weapons.length == 0) {
-                this.$.toggleDel.active = false;
+                this.$.toggle.active = false;
             }
             this._redraw();
         },
@@ -126,7 +126,7 @@
             this.$.addWeaponDialog.toggle();
             if(this.$.toggle.active) {
                 this.$.toggle.active = false;
-                this._handleWEdit(e);
+                this._handleEdit(e);
             }
             var entry = this.$.aform.serialize();
             if(!this.$.aform.validate()) return;
