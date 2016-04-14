@@ -79,7 +79,7 @@
 	                </template>
 	        	</ul>
 
-	        	<paper-icon-button icon="add" style="color: green;float: right;" title="test" on-click="toggle">blah</paper-icon-button>
+                <paper-icon-button icon="add-circle-outline" style="color:green" title="test" on-click="toggle"></paper-icon-button>
 
 	            <paper-dialog id="addInvDialog" withBackdrop="true" modal>
     	            <div class="add-inv-item">
@@ -129,6 +129,7 @@
         },
 
         _handleSubmit: function(e) {
+            this.$.addInvDialog.toggle();
             if(this.$.toggle.active) {
                 this.$.toggle.active = false;
                 this._handleEdit(e);
