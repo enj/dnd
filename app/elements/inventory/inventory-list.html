@@ -37,6 +37,11 @@
             color: #F00;
         }
 
+        paper-dialog div {
+            padding:0px;
+            margin:0px;
+        }
+
 	</style>
 
 	<template>
@@ -79,6 +84,7 @@
 	            <paper-dialog id="addInvDialog" withBackdrop="true" modal>
     	            <div class="add-inv-item">
                         <paper-toolbar><div class="paper-header">Add Item</div></paper-toolbar>
+                        <div style="padding:10px">
     	                <form is="iron-form" id="aform">
     	                    <paper-input id="name_field" name="name" label="Name" required></paper-input>
     	                    <paper-input id="weight_field" type="number" name="weight" label="Weight"></paper-input>
@@ -87,6 +93,8 @@
                             <paper-button style="color: red !important;" raised on-tap="toggle">Cancel</paper-button>
     	                    <div class="output"></div>
     	                </form>
+
+                    </div>
     	            </div>
 	            </paper-dialog>
             </paper-header-panel>
