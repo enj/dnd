@@ -130,13 +130,16 @@
         },
 
         _handleSubmit: function(e) {
+            if(!this.$.aform.validate()) return;
             this.$.addArmorDialog.toggle();
             if(this.$.toggle.active) {
                 this.$.toggle.active = false;
                 this._handleEdit(e);
             }
             var entry = this.$.aform.serialize();
-            if(!this.$.aform.validate()) return;
+            entry['armor'] = ~~entry['armor'];
+            entry['weight'] = ~~entry['weight'];
+
             var apparmor = app.$.armor.$.ref;
             apparmor.add(entry);
 
@@ -155,6 +158,14 @@
                 return;
             }
             this.fire('iron-signal', {name: 'editarmor', data: this.namespace});
+        },
+
+        getTotalArmor: function() {
+            total = 0;
+            for(var i=0; i<this.armor.length;i++) {
+                total += this.armor[i].armor;
+            }
+            return total;
         }
 
     });
