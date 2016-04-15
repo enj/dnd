@@ -27,7 +27,10 @@
             key: String,
             text: String,
             kind: String,
-            pb: Number,
+            pb: {
+                type: Number,
+                value: 0
+            }
         },
 
         score: function(kind, checked, pb) {
