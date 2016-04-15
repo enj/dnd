@@ -1,0 +1,71 @@
+
+
+<dom-module id="dnd-background">
+
+	<style>
+		paper-toolbar {
+            background-color: #800;
+            height: 40px;
+
+          --paper-toolbar: {
+            @apply(--layout-vertical);
+          };
+        }
+
+        .notes {
+        	width: 270px;
+        }
+
+        .content {
+        	padding: 15px 15px 15px 15px;
+        }
+
+	</style>
+
+	<template>
+		
+		<paper-header-panel>
+			<paper-toolbar>
+				<table width="100%">
+					<tr>
+						<td><paper-icon-button icon="menu" on-tap="toggleCont"></paper-icon-button>
+						<td><div class="paper-header">Character Background</div></td>
+					</tr>
+				</table>
+			</paper-toolbar>
+
+			<!-- stuff -->
+			<iron-collapse id="contentCollapse">
+				<div class="content">
+					<form is="iron-form" id="contForm">
+						<table width="100%">
+							<tr>
+								<div class="notes">
+									<paper-textarea id="notes_field" name="notes" class="notes" label="Notes"></paper-textarea>
+								</div>
+							</tr>
+						</table>
+						<div class="output"></div>
+					</form>
+				</div>
+			</iron-collapse>
+
+		</paper-header-panel>
+
+	</template>
+
+</dom-module>
+
+<script>
+	Polymer({
+		is: "dnd-background",
+
+		properties: {
+
+		},
+
+		toggleCont: function() {
+			this.$.contentCollapse.toggle();
+		}
+	});
+</script>
