@@ -2,8 +2,14 @@
     <style>
         .hpi {
             float: left;
-            width: 90px;
-            padding: 5px 5px 5px 5px;
+            width: 85px;
+            padding: 0px 5px 0px 5px;
+        }
+
+        .pbi {
+            float: left;
+            width: 180px;
+            padding: 0px 5px 0px 5px;
         }
 
         paper-toolbar {
@@ -20,31 +26,63 @@
     <template>
         <hp-validator id="chpValid" validator-name="chpValidator"></hp-validator>
         <hp-validator id="mhpValid" validator-name="mhpValidator"></hp-validator>
+        <hp-validator id="inValid" validator-name="inValidator"></hp-validator>
+        <hp-validator id="pbValid" validator-name="pbValidator"></hp-validator>
         <iron-signals
             on-iron-signal-fbupdate="_updateHP">
         </iron-signals>
         <paper-header-panel>
                 <paper-toolbar>
-                    <div class="paper-header">Hit Points</div>
+                    <div class="paper-header">Combat</div>
                 </paper-toolbar>
-            <paper-input id="currentHP"
-                   class="hpi"
-                   value="{{currentHP}}"
-                   label="Current HP"
-                   on-keyup="setCurrentHP"
-                   auto-validate
-                   validator="chpValidator"
-                   error-message="int [-300,300]">
-            </paper-input>
-            <paper-input id="maxHP"
-                   class="hpi"
-                   value="{{maxHP}}"
-                   label="Max HP"
-                   on-keyup="setMaxHP"
-                   auto-validate
-                   validator="mhpValidator"
-                   error-message="int [1,300]">
-            </paper-input>
+                <div>
+                    <paper-input id="currentHP"
+                           class="hpi"
+                           value="{{currentHP}}"
+                           label="Current HP"
+                           on-keyup="setCurrentHP"
+                           auto-validate
+                           validator="chpValidator"
+                           error-message="int [-300,300]">
+                    </paper-input>
+                    <paper-input id="maxHP"
+                           class="hpi"
+                           value="{{maxHP}}"
+                           label="Max HP"
+                           on-keyup="setMaxHP"
+                           auto-validate
+                           validator="mhpValidator"
+                           error-message="int [1,300]">
+                    </paper-input>
+                </div>
+                <div>
+                    <paper-input id="initiative"
+                           class="hpi"
+                           value="{{initiative}}"
+                           label="Initiative"
+                           on-keyup="setInitiative"
+                           auto-validate
+                           validator="inValidator"
+                           error-message="int [1,30]">
+                    </paper-input>
+                    <paper-input id="armorClass"
+                           class="hpi"
+                           value="[[armorClass]]"
+                           label="Armor Class"
+                           readonly>
+                    </paper-input>
+                </div>
+                <div>
+                    <paper-input id="pb"
+                           class="pbi"
+                           value="{{pb}}"
+                           label="Proficiency Bonus"
+                           on-keyup="setBP"
+                           auto-validate
+                           validator="pbValidator"
+                           error-message="int [0,30]">
+                    </paper-input>
+                </div>
         </paper-header-panel>
     </template>
 </dom-module>
@@ -61,44 +99,88 @@
             maxHP: {
                 type: Number,
                 notify: true
+            },
+            armorClass: {
+                type: Number,
+                notify: true
+            },
+            initiative: {
+                type: Number,
+                notify: true
+            },
+            pb: {
+                type: Number,
+                notify: true
             }
         },
 
         _updateHP: function(e) {
             app.$.hp.update(e, this);
+            if (e.detail === "armor") {
+                this.armorClass = app.$.alf.getTotalArmor();
+            }
+        },
+
+        _set: function(validator, name) {
+            if (this[validator](this[name])) {
+                var obj = {};
+                obj[name] = ~~this[name];
+                app.hpData = obj;
+            }
         },
 
         setMaxHP: function(e) {
-            if (this.mhpValidator(this.maxHP)) {
-                app.hpData = {maxHP: ~~this.maxHP};
-            }
+            this._set("mhpValidator", "maxHP");
         },
 
         setCurrentHP: function(e) {
-            if (this.chpValidator(this.currentHP)) {
-                app.hpData = {currentHP: ~~this.currentHP};
-            }
+            this._set("chpValidator", "currentHP");
+        },
+
+        setInitiative: function(e) {
+            this._set("inValidator", "initiative");
+        },
+
+        setBP: function(e) {
+            this._set("pbValidator", "pb");
         },
 
         ready: function() {
-            this.$.chpValid.validate = this.chpValidator.bind(this);
-            this.$.mhpValid.validate = this.mhpValidator.bind(this);
+            var v = {
+                mhpValid: this.mhpValidator,
+                chpValid: this.chpValidator,
+                inValid: this.inValidator,
+                pbValid: this.pbValidator,
+            };
+            for (var key in v) {
+                if (v.hasOwnProperty(key)) {
+                    this.$[key].validate = v[key].bind(this);
+                }
+            }
+        },
+
+        _validator: function(v, min, max) {
+            var hp = ~~v;
+            if (v && !isNaN(v) && +v === hp && hp >= min && hp <= max) {
+                return true;
+            }
+            return false;
         },
 
         mhpValidator: function(v) {
-            var hp = ~~v;
-            if (v && !isNaN(v) && +v === hp && hp >= 1 && hp <= 300) {
-                return true;
-            }
-            return false;
+            return this._validator(v, 1, 300);
         },
 
         chpValidator: function(v) {
-            var hp = ~~v;
-            if (v && !isNaN(v) && +v === hp && hp >= -300 && hp <= 300) {
-                return true;
-            }
-            return false;
+            return this._validator(v, -300, 300);
+        },
+
+        inValidator: function(v) {
+            return this._validator(v, 1, 50);
+        },
+
+        pbValidator: function(v) {
+            return this._validator(v, 0, 30);
         },
     });
 

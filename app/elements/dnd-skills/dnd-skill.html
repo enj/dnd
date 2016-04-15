@@ -7,7 +7,7 @@
         <table width=100% height=40><tr>
             <td width=50 align=left><paper-icon-button id="cbutton" on-tap="_toggleCheck" icon="radio-button-unchecked"></paper-icon-button></td>
             <td>{{text}}</td>
-            <td width=50 align=right>{{score(kind, checked)}}</td>
+            <td width=50 align=right>{{score(kind, checked, pb)}}</td>
         </tr></table>
     </template>
 
@@ -27,10 +27,11 @@
             key: String,
             text: String,
             kind: String,
+            pb: Number,
         },
 
-        score: function(kind, checked) {
-            var mod = checked ? 2 : 0;
+        score: function(kind, checked, pb) {
+            var mod = checked ? pb : 0;
             return app.$.asf.getModifier(kind) + mod;
         },
 
@@ -42,6 +43,8 @@
                 this.kind = k;
             } else if (e.detail === "skills" && app.skillData[this.key] !== undefined) {
                 this.checked = app.skillData[this.key];
+            } else if (e.detail === "hp" && app.hpData.pb !== undefined) {
+                this.pb = app.hpData.pb;
             }
         },
 
