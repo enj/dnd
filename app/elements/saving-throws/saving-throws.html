@@ -1,0 +1,75 @@
+<link rel="import" href="saving-throw.html">
+
+<dom-module id="saving-throws">
+    <style>
+
+        ul {
+            list-style: none;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        li + li {
+            border-top: solid 1px #666;
+        }
+
+        paper-toolbar {
+            background-color: #800;
+            height: 40px;
+
+          --paper-toolbar: {
+            @apply(--layout-vertical);
+          };
+        }
+
+    </style>
+
+    <template>
+        <paper-header-panel>
+            <paper-toolbar>
+                <div class="paper-header">Saving Throws</div>
+            </paper-toolbar>
+            <ul>
+                <template is="dom-repeat" items="{{st}}" as="skill">
+                    <li>
+                        <saving-throw
+                            key="{{skill.key}}"
+                            text="{{skill.text}}"
+                            kind="{{skill.kind}}">
+                        </saving-throw>
+                    </li>
+                </template>
+            </ul>
+        </paper-header-panel>
+    </template>
+
+</dom-module>
+
+
+
+<script>
+    Polymer({
+        is: "saving-throws",
+
+        properties: {
+            scroll: "true",
+            st: {
+                type: Array,
+                notify: true,
+                value: [
+                    {key: "str", text: "STR", kind: "strength"},
+                    {key: "dex", text: "DEX", kind: "dexterity"},
+                    {key: "con", text: "CON", kind: "constitution"},
+                    {key: "int", text: "INT", kind: "intelligence"},
+                    {key: "wis", text: "WIS", kind: "wisdom"},
+                    {key: "cha", text: "CHA", kind: "charisma"},
+                ]
+            }
+        },
+
+        score: function(kind, checked, pb) {
+            var mod = checked ? pb : 0;
+            return app.$.asf.getModifier(kind) + mod;
+        }
+    });
+</script>

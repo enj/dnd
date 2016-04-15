@@ -158,13 +158,29 @@
             namespace="skills">
         </dnd-doc-data>
 
+        <dnd-doc-data id="st"
+            location="[[firebaseURL]]"
+            data="{{stData}}"
+            user="{{user}}"
+            cid="character2"
+            namespace="st">
+        </dnd-doc-data>
+
         <div class="container layout iron-flex-alignment">
 
+            <div class="container layout vertical">
             <div class="element-padding">
                 <paper-material elevation=5 class="med">
                     <dnd-hp></dnd-hp>
                 </paper-material>
             </div>
+
+            <div class="element-padding">
+                <paper-material elevation=5 class="med">
+                    <saving-throws></saving-throws>
+                </paper-material>
+            </div>
+        </div>
 
             <div class="element-padding">
                 <paper-material elevation=5 class="tall">
