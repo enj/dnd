@@ -1,13 +1,9 @@
 <dom-module id="saving-throw">
-    <style>
-        
-    </style>
-
     <template>
         <iron-signals
             on-iron-signal-fbupdate="_updateThrow">
         </iron-signals>
-        <table width=100% height=40><tr height="10px">
+        <table width=100%><tr>
             <td width=50 align=left><paper-icon-button id="cbutton" on-tap="_toggleCheck" icon="radio-button-unchecked"></paper-icon-button></td>
             <td>{{text}}</td>
             <td width=50 align=right>{{score(kind, checked, pb)}}</td>

@@ -2,15 +2,10 @@
 
 <dom-module id="saving-throws">
     <style>
-
-        ul {
-            list-style: none;
-            padding-left: 15px;
-            padding-right: 15px;
-        }
-
-        li + li {
-            border-top: solid 1px #666;
+        li {
+          list-style: none;
+          height: 30px;
+          padding: 0px 10px 0px 0px;
         }
 
         paper-toolbar {
@@ -29,7 +24,6 @@
             <paper-toolbar>
                 <div class="paper-header">Saving Throws</div>
             </paper-toolbar>
-            <ul>
                 <template is="dom-repeat" items="{{st}}" as="skill">
                     <li>
                         <saving-throw
@@ -39,7 +33,6 @@
                         </saving-throw>
                     </li>
                 </template>
-            </ul>
         </paper-header-panel>
     </template>
 
@@ -57,12 +50,12 @@
                 type: Array,
                 notify: true,
                 value: [
-                    {key: "str", text: "STR", kind: "strength"},
-                    {key: "dex", text: "DEX", kind: "dexterity"},
-                    {key: "con", text: "CON", kind: "constitution"},
-                    {key: "int", text: "INT", kind: "intelligence"},
-                    {key: "wis", text: "WIS", kind: "wisdom"},
-                    {key: "cha", text: "CHA", kind: "charisma"},
+                    {key: "str", text: "Strength", kind: "strength"},
+                    {key: "dex", text: "Dexterity", kind: "dexterity"},
+                    {key: "con", text: "Constitution", kind: "constitution"},
+                    {key: "int", text: "Intelligence", kind: "intelligence"},
+                    {key: "wis", text: "Wisdom", kind: "wisdom"},
+                    {key: "cha", text: "Charisma", kind: "charisma"},
                 ]
             }
         },
