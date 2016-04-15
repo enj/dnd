@@ -1,5 +1,3 @@
-
-
 <dom-module id="dnd-background">
 
 	<style>
@@ -23,7 +21,9 @@
 	</style>
 
 	<template>
-		
+		<iron-signals
+            on-iron-signal-fbupdate="_updateBack">
+        </iron-signals>
 		<paper-header-panel>
 			<paper-toolbar>
 				<table width="100%">
@@ -37,16 +37,15 @@
 			<!-- stuff -->
 			<iron-collapse id="contentCollapse">
 				<div class="content">
-					<form is="iron-form" id="contForm">
+					
 						<table width="100%">
 							<tr>
 								<div class="notes">
-									<paper-textarea id="notes_field" name="notes" class="notes" label="Notes"></paper-textarea>
+									<paper-textarea id="notes_field" name="notes" class="notes" value="{{notes}}" label="Notes"></paper-textarea>
 								</div>
 							</tr>
 						</table>
-						<div class="output"></div>
-					</form>
+						<paper-button raised on-tap="submitSave">Save</paper-button>
 				</div>
 			</iron-collapse>
 
@@ -60,12 +59,28 @@
 	Polymer({
 		is: "dnd-background",
 
-		properties: {
+		ready: function() {
+			this.$.contentCollapse.opened = true;
+		},
 
+		properties: {
+			notes: {
+				type: String,
+				notify: true
+			}
 		},
 
 		toggleCont: function() {
 			this.$.contentCollapse.toggle();
+		},
+
+		submitSave: function(e) {
+			app.backgroundData = {notes: this.notes};
+			//app.$.background.$.ref._setData({notes: this.notes});
+		},
+
+		_updateBack: function(e) {
+			app.$.background.update(e, this);
 		}
 	});
 </script>
