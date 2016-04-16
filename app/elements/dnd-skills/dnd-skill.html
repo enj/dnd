@@ -7,7 +7,7 @@
         <table width=100% height=40><tr>
             <td width=50 align=left><paper-icon-button id="cbutton" on-tap="_toggleCheck" icon="radio-button-unchecked"></paper-icon-button></td>
             <td>{{text}}</td>
-            <td width=50 align=right>{{score(kind, checked, pb)}}</td>
+            <td width=50 align=right>{{score}}</td>
         </tr></table>
     </template>
 
@@ -22,32 +22,39 @@
                 type: Boolean,
                 notify: true,
                 observer: "_updateCheckIcon",
-                value: false
             },
             key: String,
             text: String,
             kind: String,
             pb: {
                 type: Number,
-                value: 0
+                notify: true,
+            },
+            score: {
+                type: Number,
+                notify: true,
             }
         },
 
-        score: function(kind, checked, pb) {
-            var mod = checked ? pb : 0;
-            return app.$.asf.getModifier(kind) + mod;
+        updateScore: function() {
+            var mod = this.checked ? this.pb : 0;
+            this.score = app.$.asf.getModifier(this.kind) + mod;
         },
 
         _updateSkill: function(e) {
-            if (e.detail === "as" && app.asData[this.kind] !== undefined) {
-                // hack to recalculate computed score value
-                var k = this.kind;
-                this.kind = undefined;
-                this.kind = k;
-            } else if (e.detail === "skills" && app.skillData[this.key] !== undefined) {
+            var n = e.detail;
+            var u = false;
+            if (n === "as" && app.asData[this.kind] !== undefined) {
+                u = true;
+            } else if (n === "skills" && app.skillData[this.key] !== undefined) {
                 this.checked = app.skillData[this.key];
-            } else if (e.detail === "hp" && app.hpData.pb !== undefined) {
+                u = true;
+            } else if (n === "hp" && app.hpData.pb !== undefined) {
                 this.pb = app.hpData.pb;
+                u = true;
+            }
+            if (u) {
+                this.updateScore();
             }
         },
 

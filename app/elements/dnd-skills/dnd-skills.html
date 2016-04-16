@@ -27,15 +27,25 @@
     <template>
         <paper-header-panel>
             <paper-toolbar>
-                <div class="paper-header">Skills</div>
+                    <table width=100%>
+                            <tr>
+                                <td><div class="paper-header">Skills</div></td>
+                                <td align="right">
+                                    <paper-input value="{{sf::input}}" label="Skill Filter"></paper-input>
+                                </td>
+                            </tr>
+                        </table>
             </paper-toolbar>
             <ul>
-                <template is="dom-repeat" items="{{skills}}" as="skill">
+                <template id="skillList" is="dom-repeat" items="{{skills}}" as="skill" filter="{{skillFilter(sf)}}">
                     <li>
                         <dnd-skill
                             key="{{skill.key}}"
                             text="{{skill.text}}"
-                            kind="{{skill.kind}}">
+                            kind="{{skill.kind}}"
+                            checked="{{skill.checked}}"
+                            score="{{skill.score}}"
+                            pb="{{skill.pb}}">
                         </dnd-skill>
                     </li>
                 </template>
@@ -57,26 +67,33 @@
                 type: Array,
                 notify: true,
                 value: [
-                    {key: "acr", text: "Acrobatics", kind: "dexterity"},
-                    {key: "anh", text: "Animal Handling", kind: "wisdom"},
-                    {key: "arc", text: "Arcana", kind: "intelligence"},
-                    {key: "ath", text: "Athletics", kind: "strength"},
-                    {key: "dec", text: "Deception", kind: "charisma"},
-                    {key: "his", text: "History", kind: "intelligence"},
-                    {key: "ins", text: "Insight", kind: "wisdom"},
-                    {key: "int", text: "Intimidation", kind: "charisma"},
-                    {key: "inv", text: "Investigation", kind: "intelligence"},
-                    {key: "med", text: "Medicine", kind: "wisdom"},
-                    {key: "nat", text: "Nature", kind: "intelligence"},
-                    {key: "cep", text: "Perception", kind: "wisdom"},
-                    {key: "for", text: "Performance", kind: "charisma"},
-                    {key: "sua", text: "Persuasion", kind: "charisma"},
-                    {key: "rel", text: "Religion", kind: "intelligence"},
-                    {key: "soh", text: "Sleight of Hand", kind: "dexterity"},
-                    {key: "sth", text: "Stealth", kind: "dexterity"},
-                    {key: "sur", text: "Survival", kind: "wisdom"},
+                    {key: "acr", text: "Acrobatics", kind: "dexterity", checked: false, score: 0, pb: 0},
+                    {key: "anh", text: "Animal Handling", kind: "wisdom", checked: false, score: 0, pb: 0},
+                    {key: "arc", text: "Arcana", kind: "intelligence", checked: false, score: 0, pb: 0},
+                    {key: "ath", text: "Athletics", kind: "strength", checked: false, score: 0, pb: 0},
+                    {key: "dec", text: "Deception", kind: "charisma", checked: false, score: 0, pb: 0},
+                    {key: "his", text: "History", kind: "intelligence", checked: false, score: 0, pb: 0},
+                    {key: "ins", text: "Insight", kind: "wisdom", checked: false, score: 0, pb: 0},
+                    {key: "int", text: "Intimidation", kind: "charisma", checked: false, score: 0, pb: 0},
+                    {key: "inv", text: "Investigation", kind: "intelligence", checked: false, score: 0, pb: 0},
+                    {key: "med", text: "Medicine", kind: "wisdom", checked: false, score: 0, pb: 0},
+                    {key: "nat", text: "Nature", kind: "intelligence", checked: false, score: 0, pb: 0},
+                    {key: "cep", text: "Perception", kind: "wisdom", checked: false, score: 0, pb: 0},
+                    {key: "for", text: "Performance", kind: "charisma", checked: false, score: 0, pb: 0},
+                    {key: "sua", text: "Persuasion", kind: "charisma", checked: false, score: 0, pb: 0},
+                    {key: "rel", text: "Religion", kind: "intelligence", checked: false, score: 0, pb: 0},
+                    {key: "soh", text: "Sleight of Hand", kind: "dexterity", checked: false, score: 0, pb: 0},
+                    {key: "sth", text: "Stealth", kind: "dexterity", checked: false, score: 0, pb: 0},
+                    {key: "sur", text: "Survival", kind: "wisdom", checked: false, score: 0, pb: 0},
                 ]
-            }
+            },
+        },
+
+        skillFilter: function(sf) {
+            return function(skill) {
+                if (!sf) return true;
+                return skill.text.toLowerCase().includes(sf.toLowerCase());
+            };
         },
     });
 </script>
