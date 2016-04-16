@@ -43,8 +43,8 @@
                 var k = this.kind;
                 this.kind = undefined;
                 this.kind = k;
-            } else if (e.detail === "skills" && app.skillData[this.key] !== undefined) {
-                this.checked = app.skillData[this.key];
+            } else if (e.detail === "st" && app.stData[this.key] !== undefined) {
+                this.checked = app.stData[this.key];
             } else if (e.detail === "hp" && app.hpData.pb !== undefined) {
                 this.pb = app.hpData.pb;
             }
