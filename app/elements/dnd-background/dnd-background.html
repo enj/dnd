@@ -33,19 +33,14 @@
 			<paper-toolbar>
 				<table width="100%">
 					<tr>
-						<td><paper-icon-button icon="menu" on-tap="toggleCont"></paper-icon-button>
 						<td><div class="paper-header">Character Background</div></td>
 					</tr>
 				</table>
 			</paper-toolbar>
 
-			<!-- stuff -->
-			<iron-collapse id="contentCollapse">
 					<div class="content">
-					
 							<table width="100%">
 								<tr>
-								
 									<div class="notes">
 									    
 										<paper-textarea id="notes_field" name="notes" class="notes" value="{{notes}}" label="Notes"></paper-textarea>
@@ -59,8 +54,7 @@
 							    </tr>
 							</table>
 					</div>
-					
-			</iron-collapse>
+
 		</paper-header-panel>
 
 	</template>
@@ -71,19 +65,11 @@
 	Polymer({
 		is: "dnd-background",
 
-		ready: function() {
-			this.$.contentCollapse.opened = true;
-		},
-
 		properties: {
 			notes: {
 				type: String,
 				notify: true
 			}
-		},
-
-		toggleCont: function() {
-			this.$.contentCollapse.toggle();
 		},
 
 		submitSave: function(e) {
