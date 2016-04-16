@@ -46,6 +46,13 @@
           };
         }
 
+        .filter {
+            width:120px;
+            background-color:#fff;
+            height:30px;
+            text-align:left;
+        }
+
     </style>
 
     <template>
@@ -58,6 +65,13 @@
                 <table width=100%>
                     <tr>
                         <td><div class="paper-header">Journal</div></td>
+                        <td align="center"><paper-input
+                            class="filter"
+                            no-label-float
+                            label="Filter"
+                            type="text"
+                            value="{{jf::input}}">
+                        </paper-input></td>
                         <td align="right">
                             <paper-icon-button id="toggle" icon="remove-circle-outline" toggles on-tap="_handleEdit">
                             </paper-icon-button>
@@ -66,7 +80,7 @@
                 </table>
             </paper-toolbar>
             <ul>
-                <template id="jList" is="dom-repeat" items="{{journals}}" as="item">
+                <template id="jList" is="dom-repeat" items="{{journals}}" as="item" filter="{{jFilter(jf)}}">
                     <li>
                         <journal-entry
                             name="{{item.name}}"
@@ -135,6 +149,16 @@
                 return;
             }
             this.fire('iron-signal', {name: 'editjournal', data: this.namespace});
+        },
+
+        jFilter: function(jf) {
+            return function(journal) {
+                if(!jf) return true;
+                title = journal.name.toLowerCase();
+                text = journal.text.toLowerCase();
+                filter = jf.toLowerCase();
+                return (title.includes(filter) || text.includes(filter));
+            };
         }
 
     });
