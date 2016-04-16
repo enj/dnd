@@ -83,6 +83,7 @@
                 <table width="100%">
                     <tr>
                         <td>D&amp;D App</td>
+                        <td><dnd-screen></dnd-screen></td>
                         <td width="400px" align="right"><dnd-user user="{{user}}"></dnd-user></td>
                     </tr>
                 </table>
@@ -168,57 +169,57 @@
 
         <div class="container layout iron-flex-alignment">
 
-            <div class="container layout vertical">
+            <div class="container layout vertical show-combat">
             <div class="element-padding">
                 <paper-material elevation=5 class="med">
                     <dnd-hp></dnd-hp>
                 </paper-material>
             </div>
 
-            <div class="element-padding">
+            <div class="element-padding show-combat">
                 <paper-material elevation=5 class="med">
                     <saving-throws></saving-throws>
                 </paper-material>
             </div>
         </div>
 
-            <div class="element-padding">
+            <div class="element-padding show-combat">
                 <paper-material elevation=5 class="tall">
                     <dnd-as id="asf"></dnd-as>
                 </paper-material>
             </div>
 
-            <div class="element-padding">
+            <div class="element-padding show-combat">
                 <paper-material elevation=5 class="big">
                     <dnd-skills></dnd-skills>
                 </paper-material>
             </div>
 
-            <div class="element-padding">
+            <div class="element-padding show-town">
                 <paper-material elevation=5 class="big">
                     <journal-list id="journalpage"></journal-list>
                 </paper-material>
             </div>
 
-            <div class="element-padding">
+            <div class="element-padding show-town">
                 <paper-material elevation=5 class="big">
                     <armor-list id="alf"></armor-list>
                 </paper-material>
             </div>
 
-            <div class="element-padding">
+            <div class="element-padding show-combat">
                 <paper-material elevation=5 class="big">
                     <dnd-weapons></dnd-weapons>
                 </paper-material>
             </div>
 
-            <div class="element-padding">
+            <div class="element-padding show-town">
                 <paper-material elevation=5 class="big">
                     <inventory-list></inventory-list>
                 </paper-material>
             </div>
 
-            <div class="element-padding">
+            <div class="element-padding show-town">
                 <paper-material elevation=5 class="big">
                     <dnd-background></dnd-background>
                 </paper-material>

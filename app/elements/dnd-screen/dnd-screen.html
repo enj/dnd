@@ -1,0 +1,108 @@
+<dom-module id="dnd-screen">
+    <style>
+        paper-button.dsb {
+            background: #800;
+            color: white;
+        }
+        paper-button.dsb[active] {
+            background: white;
+            color: #800;
+        }
+
+        .buttons {
+            text-align: justify;
+            padding-top: 20px;
+        }
+        .buttons > div {
+            width: 50px; /* Declare your value. Can be in relative units. */
+            display: inline-block;
+        }
+        .buttons:after {
+            content: "";
+            width: 100%;
+            display: inline-block;
+        }
+    </style>
+
+    <template>
+        <div class="buttons">
+            <div><paper-button id="all" class="dsb" on-tap="showAll" active>All</paper-button></div>
+            <div><paper-button id="combat" class="dsb" on-tap="showOnlyCombat">Combat</paper-button></div>
+            <div><paper-button id="town" class="dsb" on-tap="showOnlyTown">Town</paper-button></div>
+        </div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: "dnd-screen",
+
+        _modState: function(cls, style) {
+            var arr = document.body.querySelectorAll(cls);
+            for (var i = 0; i < arr.length; i++) {
+                arr[i].style.display = style;
+            }
+        },
+
+        _hide: function(cls) {
+            this._modState(cls, "None");
+        },
+
+        _show: function(cls) {
+            this._modState(cls, "");
+        },
+
+        _hideCombat: function() {
+            this._hide(".show-combat");
+        },
+
+        _hideTown: function() {
+            this._hide(".show-town");
+        },
+
+        _showCombat: function() {
+            this._show(".show-combat");
+        },
+
+        _showTown: function() {
+            this._show(".show-town");
+        },
+
+        _buttonState: function(b, state) {
+            this.$[b].active = state;
+        },
+
+        _disable: function(b) {
+            this._buttonState(b, false);
+        },
+
+        _enable: function(b) {
+            this._buttonState(b, true);
+        },
+
+        _modButton: function(b, arr) {
+            for (var i = 0; i < arr.length; i++) {
+                this._disable(arr[i]);
+            }
+            this._enable(b);
+        },
+
+        showOnlyTown: function() {
+            this._hideCombat();
+            this._showTown();
+            this._modButton("town", ["combat", "all"]);
+        },
+
+        showOnlyCombat: function() {
+            this._hideTown();
+            this._showCombat();
+            this._modButton("combat", ["all", "town"]);
+        },
+
+        showAll: function() {
+            this._showCombat();
+            this._showTown();
+            this._modButton("all", ["combat", "town"]);
+        },
+    });
+</script>
