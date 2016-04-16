@@ -10,6 +10,10 @@
           };
         }
 
+        paper-ripple {
+            color: #76FF03;
+        }
+
         .notes {
         	width: 270px;
         }
@@ -24,6 +28,7 @@
 		<iron-signals
             on-iron-signal-fbupdate="_updateBack">
         </iron-signals>
+        
 		<paper-header-panel>
 			<paper-toolbar>
 				<table width="100%">
@@ -36,19 +41,26 @@
 
 			<!-- stuff -->
 			<iron-collapse id="contentCollapse">
-				<div class="content">
-
-						<table width="100%">
-							<tr>
-								<div class="notes">
-									<paper-textarea id="notes_field" name="notes" class="notes" value="{{notes}}" label="Notes"></paper-textarea>
-								</div>
-							</tr>
-						</table>
-						<paper-button raised on-tap="submitSave">Save</paper-button>
-				</div>
+					<div class="content">
+					
+							<table width="100%">
+								<tr>
+								
+									<div class="notes">
+									    
+										<paper-textarea id="notes_field" name="notes" class="notes" value="{{notes}}" label="Notes"></paper-textarea>
+									</div>
+								
+								</tr>
+								<tr>
+									<div style="text-align: center;">
+									<paper-ripple center id="ripple" fit></paper-ripple>
+									<paper-button style="width: 100%;" raised on-tap="submitSave">Save</paper-button></div>
+							    </tr>
+							</table>
+					</div>
+					
 			</iron-collapse>
-
 		</paper-header-panel>
 
 	</template>
@@ -76,7 +88,7 @@
 
 		submitSave: function(e) {
 			app.backgroundData = {notes: this.notes};
-			//app.$.background.$.ref._setData({notes: this.notes});
+			app.$.ripple.simulatedRipple();
 		},
 
 		_updateBack: function(e) {
