@@ -182,6 +182,14 @@
             namespace="spells">
         </dnd-col-data>
 
+        <dnd-doc-data id="ci"
+            location="[[firebaseURL]]"
+            data="{{charInfo}}"
+            user="{{user}}"
+            cid="character2"
+            namespace="ci">
+        </dnd-doc-data>
+
         <div class="container layout iron-flex-alignment">
 
             <div class="container layout vertical show-combat">
@@ -252,6 +260,12 @@
             <div class="element-padding show-town">
                 <paper-material elevation=5 class="big">
                     <dnd-background></dnd-background>
+                </paper-material>
+            </div>
+
+            <div class="element-padding show-town">
+                <paper-material elevation=5 class="big">
+                    <dnd-char-info></dnd-char-info>
                 </paper-material>
             </div>
 

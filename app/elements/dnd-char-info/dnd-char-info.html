@@ -1,0 +1,255 @@
+<dom-module id="dnd-char-info">
+    <style>
+        paper-toolbar {
+            background-color: #800;
+            height: 40px;
+
+            --paper-toolbar: {
+                @apply(--layout-vertical);
+            };
+        }
+
+        paper-fab {
+            position: absolute;
+            bottom: 2vh;
+            right: 2vw;
+            background: #800;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        li {
+            list-style: none;
+            height: 30px;
+            padding: 0px 10px 25px 0px;
+        }
+    </style>
+
+    <template>
+        <ci-validator id="simpleValid" validator-name="simpleValidator"></ci-validator>
+        <ci-validator id="lvlValid" validator-name="lvlValidator"></ci-validator>
+        <ci-validator id="xpValid" validator-name="xpValidator"></ci-validator>
+        <iron-signals
+            on-iron-signal-fbupdate="_updateCI">
+        </iron-signals>
+        <paper-header-panel>
+            <paper-toolbar>
+                <div class="paper-header">Character Information</div>
+            </paper-toolbar>
+            <ul>
+                <li>
+                    <paper-input
+                        label="Character Name"
+                        readonly="{{!editing}}"
+                        value="{{name}}"
+                        on-keyup="setName"
+                        auto-validate
+                        validator="simpleValidator"
+                        error-message="non-empty">
+                    </paper-input>
+                </li>
+                <li>
+                    <paper-input
+                        label="Class"
+                        readonly="{{!editing}}"
+                        value="{{cls}}"
+                        on-keyup="setClass"
+                        auto-validate
+                        validator="simpleValidator"
+                        error-message="non-empty">
+                    </paper-input>
+                </li>
+                <li>
+                    <paper-input
+                        label="Level"
+                        readonly="{{!editing}}"
+                        value="{{lvl}}"
+                        on-keyup="setLevel"
+                        auto-validate
+                        validator="lvlValidator"
+                        error-message="int [1,30]">
+                    </paper-input>
+                </li>
+                <li>
+                    <paper-input
+                        label="Background"
+                        readonly="{{!editing}}"
+                        value="{{bg}}"
+                        on-keyup="setBackground"
+                        auto-validate
+                        validator="simpleValidator"
+                        error-message="non-empty">
+                    </paper-input>
+                </li>
+                <li>
+                    <paper-input
+                        label="Race"
+                        readonly="{{!editing}}"
+                        value="{{race}}"
+                        on-keyup="setRace"
+                        auto-validate
+                        validator="simpleValidator"
+                        error-message="non-empty">
+                    </paper-input>
+                </li>
+                <li>
+                    <paper-input
+                        label="Alignment"
+                        readonly="{{!editing}}"
+                        value="{{alignment}}"
+                        on-keyup="setAlignment"
+                        auto-validate
+                        validator="simpleValidator"
+                        error-message="non-empty">
+                    </paper-input>
+                </li>
+                <li>
+                    <paper-input
+                        label="Experience Points"
+                        readonly="{{!editing}}"
+                        value="{{xp}}"
+                        on-keyup="setXP"
+                        auto-validate
+                        validator="xpValidator"
+                        error-message="int [1, 50000]">
+                    </paper-input>
+                </li>
+            </ul>
+            <paper-fab hidden={{editing}} icon="icons:create" on-tap="toggleEdit" mini></paper-fab>
+            <paper-fab hidden={{!editing}} icon="icons:done" on-tap="toggleEdit" mini></paper-fab>
+        </paper-header-panel>
+
+    </template>
+
+</dom-module>
+
+<script>
+    Polymer({
+        is: "dnd-char-info",
+
+        properties: {
+            name: {
+                type: String,
+                notify: true,
+            },
+            cls: {
+                type: String,
+                notify: true,
+            },
+            bg: {
+                type: String,
+                notify: true,
+            },
+            lvl: {
+                type: Number,
+                notify: true,
+            },
+            race: {
+                type: String,
+                notify: true,
+            },
+            alignment: {
+                type: String,
+                notify: true,
+            },
+            xp: {
+                type: Number,
+                notify: true,
+            },
+            editing: {
+                type: Boolean,
+                value: false,
+            }
+        },
+
+        toggleEdit: function(e) {
+            this.editing = !this.editing;
+        },
+
+        _updateCI: function(e) {
+            app.$.ci.update(e, this);
+        },
+
+        _set: function(validator, name) {
+            if (this[validator](this[name])) {
+                var obj = {};
+                var val = validator === "simpleValidator" ? this[name] : ~~this[name];
+                obj[name] = val;
+                app.charInfo = obj;
+            }
+        },
+
+        setName: function(e) {
+            this._set("simpleValidator", "name");
+        },
+
+        setClass: function(e) {
+            this._set("simpleValidator", "cls");
+        },
+
+        setLevel: function(e) {
+            this._set("lvlValidator", "lvl");
+        },
+
+        setBackground: function(e) {
+            this._set("simpleValidator", "bg");
+        },
+
+        setRace: function(e) {
+            this._set("simpleValidator", "race");
+        },
+
+        setAlignment: function(e) {
+            this._set("simpleValidator", "alignment");
+        },
+
+        setXP: function(e) {
+            this._set("xpValidator", "xp");
+        },
+
+        ready: function() {
+            var v = {
+                simpleValid: this.simpleValidator,
+                lvlValid: this.lvlValidator,
+                xpValid: this.xpValidator,
+            };
+            for (var key in v) {
+                if (v.hasOwnProperty(key)) {
+                    this.$[key].validate = v[key].bind(this);
+                }
+            }
+        },
+
+        _validator: function(v, min, max) {
+            var hp = ~~v;
+            if (v && !isNaN(v) && +v === hp && hp >= min && hp <= max) {
+                return true;
+            }
+            return false;
+        },
+
+        simpleValidator: function(v) {
+            return !!v;
+        },
+
+        lvlValidator: function(v) {
+            return this._validator(v, 1, 30);
+        },
+
+        xpValidator: function(v) {
+            return this._validator(v, 1, 50000);
+        },
+    });
+
+    Polymer({
+        is: "ci-validator",
+
+        behaviors: [
+            Polymer.IronValidatorBehavior
+        ],
+    });
+</script>
