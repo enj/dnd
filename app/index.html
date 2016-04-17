@@ -39,28 +39,29 @@
 
         paper-material.big {
             overflow: auto;
-            min-width: 300px;
-            max-width: 600px;
-            height: 400px;
+            min-width: 350px;
+            max-width: 350px;
+            height: 490px;
         }
 
         paper-material.small {
             overflow: auto;
-            width: 200px;
-            height: 130px;
+            min-width: 140px;
+            max-width: 200px;
+            height: 235px;
         }
 
         paper-material.tall {
             overflow: auto;
             min-width: 140px;
             max-width: 200px;
-            height: 500px;
+            height: 490px;
         }
 
         paper-material.med {
             overflow: auto;
-            min-width: 140px;
-            max-width: 200px;
+            min-width: 350px;
+            max-width: 350px;
             height: 235px;
         }
 
@@ -170,18 +171,18 @@
         <div class="container layout iron-flex-alignment">
 
             <div class="container layout vertical show-combat">
-            <div class="element-padding">
-                <paper-material elevation=5 class="med">
-                    <dnd-hp></dnd-hp>
-                </paper-material>
-            </div>
+                <div class="element-padding">
+                    <paper-material elevation=5 class="small">
+                        <dnd-hp></dnd-hp>
+                    </paper-material>
+                </div>
 
-            <div class="element-padding show-combat">
-                <paper-material elevation=5 class="med">
-                    <saving-throws></saving-throws>
-                </paper-material>
+                <div class="element-padding">
+                    <paper-material elevation=5 class="small">
+                        <saving-throws></saving-throws>
+                    </paper-material>
+                </div>
             </div>
-        </div>
 
             <div class="element-padding show-combat">
                 <paper-material elevation=5 class="tall">
@@ -195,23 +196,27 @@
                 </paper-material>
             </div>
 
+
+            <div class="container layout vertical show-combat">
+                <div class="element-padding">
+                    <paper-material elevation=5 class="med">
+                        <armor-list id="alf"></armor-list>
+                    </paper-material>
+                </div>
+
+                <div class="element-padding">
+                    <paper-material elevation=5 class="med">
+                        <dnd-weapons></dnd-weapons>
+                    </paper-material>
+                </div>
+            </div>
+
             <div class="element-padding show-town">
                 <paper-material elevation=5 class="big">
                     <journal-list id="journalpage"></journal-list>
                 </paper-material>
             </div>
 
-            <div class="element-padding show-town">
-                <paper-material elevation=5 class="big">
-                    <armor-list id="alf"></armor-list>
-                </paper-material>
-            </div>
-
-            <div class="element-padding show-combat">
-                <paper-material elevation=5 class="big">
-                    <dnd-weapons></dnd-weapons>
-                </paper-material>
-            </div>
 
             <div class="element-padding show-town">
                 <paper-material elevation=5 class="big">

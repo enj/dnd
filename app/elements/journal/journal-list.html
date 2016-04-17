@@ -12,8 +12,9 @@
 
         .journals {
             overflow: auto;
-            min-width: 300px;
-            max-width: 600px;
+            width: 400px;
+/*            min-width: 400px;
+            max-width: 400px;*/
             height: 400px;
             /*width: 40%;*/
             /*height: 400px;*/
@@ -164,6 +165,8 @@
         },
 
         jFilter: function(jf) {
+            this.$.toggle.active = false;
+            this.fire('iron-signal', {name: 'editjournal', data: this.namespace});
             return function(journal) {
                 if(!jf) return true;
                 title = journal.name.toLowerCase();

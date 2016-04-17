@@ -25,14 +25,15 @@
         </iron-signals>
         <table width=100% height=40><tr>
             <td><button on-click="toggle">{{name}}</button></td>
-            <td width=50 align=right>
+            <td width=40 align=right><iron-icon icon="expand-more"></iron-icon></td>
+            <td width=40 align=right>
                 <iron-collapse id="delcollapse" horizontal>
                     <paper-icon-button style="color:#B00" id="del_but" icon="remove-circle" on-click="deleteJournal"></paper-icon-button>
                 </iron-collapse>
             </td>
         </tr></table>
         <iron-collapse id="collapse">
-        <button on-click="toggle">
+        <button on-click="toggle" style="background-color:#EEE;border:0px;border-style:solid;border-color:#AAA">
         <div class="listing-wrapper">
             <span>{{text}}</span>
         </div>
