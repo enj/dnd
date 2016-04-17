@@ -10,12 +10,12 @@
           };
         }
 
-        paper-ripple {
-            color: #76FF03;
-        }
-
         .notes {
         	width: 270px;
+        }
+
+        .edit-background {
+        	padding: 0px 15px 15px 15px;
         }
 
         .content {
@@ -42,18 +42,26 @@
 							<table width="100%">
 								<tr>
 									<div class="notes">
-									    
-										<paper-textarea id="notes_field" name="notes" class="notes" value="{{notes}}" label="Notes"></paper-textarea>
+										<!-- <paper-textarea id="notes_field" name="notes" class="notes" value="{{notes}}" label="Notes" disabled></paper-textarea> -->
+										<span id="notes_field" name="notes" class="notes" label="Notes">{{notes}}</span>
 									</div>
 								
 								</tr>
 								<tr>
 									<div style="text-align: center;">
-									<paper-ripple center id="ripple" fit></paper-ripple>
-									<paper-button style="width: 100%;" raised on-tap="submitSave">Save</paper-button></div>
+									<paper-button style="width: 100%;" raised on-tap="toggleDialog">Edit</paper-button></div>
 							    </tr>
 							</table>
 					</div>
+
+			<paper-dialog id="editBackgroundDialog" withBackdrop="true" modal>
+				<div class="edit-background">
+					<paper-toolbar><div class="paper-header">Add Weapon</div></paper-toolbar>
+					<paper-textarea id="notes_field" name="notes" class="notes" value="{{notes}}" label="Notes"></paper-textarea>
+					<paper-button id="add_but" raised on-tap="submitSave">Save</paper-button>
+                    <paper-button style="color: red !important;" raised on-tap="cancelEdit">Cancel</paper-button>
+				</div>
+			</paper-dialog>
 
 		</paper-header-panel>
 
@@ -72,9 +80,18 @@
 			}
 		},
 
+		toggleDialog: function() {
+			this.$.editBackgroundDialog.toggle();
+		},
+
+		cancelEdit: function() {
+			this.toggleDialog();
+			this.notes = app.backgroundData.notes;
+		},
+
 		submitSave: function(e) {
 			app.backgroundData = {notes: this.notes};
-			app.$.ripple.simulatedRipple();
+			this.toggleDialog();
 		},
 
 		_updateBack: function(e) {
