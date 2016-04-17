@@ -12,8 +12,7 @@
 
         .feats {
             overflow: auto;
-            min-width: 300px;
-            max-width: 600px;
+            width: 400px;
             height: 400px;
             /*width: 40%;*/
             /*height: 400px;*/
@@ -30,7 +29,7 @@
         }
 
         li + li {
-            border-top: solid 1px #666;
+            /*border-top: solid 1px #666;*/
         }
 
         .new-feat {
@@ -94,11 +93,11 @@
             <ul>
                 <template id="fList" is="dom-repeat" items="{{feats}}" as="item" filter="{{fFilter(ff)}}">
                     <li>
-                        <journal-entry
+                        <feat-entry
                             name="{{item.name}}"
                             text="{{item.text}}"
                             key="{{item.__firebaseKey__}}">
-                        </journal-entry>
+                        </feat-entry>
                     </li>
                 </template>
             </ul>
