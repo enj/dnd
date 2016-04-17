@@ -1,0 +1,117 @@
+<dom-module id="char-info">
+    <style>
+        paper-toolbar {
+            background-color: #800;
+            height: 35px;
+
+          --paper-toolbar: {
+            @apply(--layout-vertical);
+          };
+        }
+
+        paper-header-panel {
+        width: 600px;
+        }
+
+        paper-fab {
+        position: absolute;
+        bottom: 3vh;
+        right: 3vw;
+        background: #800;
+    }
+    
+    ul {
+        list-style: none;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    li {
+        margin: 15px 0;
+    }
+
+    </style>
+
+    <template>
+        <paper-header-panel>
+            <paper-toolbar>
+                <div class="paper-header">Character Information</div>
+        </paper-toolbar>
+        <ul>
+            <li>
+                <paper-item hidden="{{editing}}">Character Name : <span> {{name}}</span></paper-item>
+                <paper-input label="Character Name" id="edit" hidden="{{!editing}}" value="{{name}}"></paper-input>
+            </li>
+            <li>
+                <paper-item hidden="{{editing}}">Class & Level: <span> {{claslevl}}</span></paper-item>
+                <paper-input label="Class & Level" id="edit" hidden="{{!editing}}" value="{{claslevl}}"></paper-input>
+            </li>
+            <li>
+                <paper-item hidden="{{editing}}" id="task">Background: <span> {{bakground}}</span></paper-item>
+                <paper-input label="Background" id="edit" hidden="{{!editing}}" value="{{bakground}}"></paper-input>
+            </li>
+            <li>
+                <paper-item hidden="{{editing}}">Player Name: <span> {{userName}}</span></paper-item>
+                <paper-input label="Player Name" id="edit" hidden="{{!editing}}" value="{{userName}}"></paper-input>
+            </li>
+            <li>
+                <paper-item hidden="{{editing}}">Race: <span> {{race}}</span></paper-item>
+                <paper-input label="Race" id="edit" hidden="{{!editing}}" value="{{race}}"></paper-input>
+            </li>
+            <li>
+                <paper-item hidden="{{editing}}">Alignment: <span> {{alignment}}</span></paper-item>
+                <paper-input label="Alignment" id="edit" hidden="{{!editing}}" value="{{alignment}}"></paper-input>
+            </li>
+            <li>
+                <paper-item hidden="{{editing}}">Eperience Points: <span> {{expPoints}}</span></paper-item>
+                <paper-input label="Experience Points" id="edit" hidden="{{!editing}}" value="{{expPoints}}"></paper-input>
+            </li>
+        </ul>
+            <paper-fab hidden={{editing}}  icon="icons:create" on-tap="doEdit" class="edit" mini></paper-fab>
+            <paper-fab hidden={{!editing}} icon="icons:done"   on-tap="doEdit" class="done" mini></paper-fab>
+
+        </paper-header-panel>
+
+    </template>
+
+</dom-module>
+
+<script>
+  Polymer({
+    is: "char-info",
+
+    properties: {
+        name: {
+            type: String
+        },
+        claslevl: {
+            type: String
+        },
+        bakground: {
+            type: String
+        },
+        userName: {
+            type: String
+        },
+        race: {
+            type: String
+        },
+        alignment: {
+            type: String
+        },
+        expPoints: {
+            type:String
+        },
+        editing: {
+            type: Boolean,
+            value: false    
+        }
+    },
+    doEdit: function(e){
+        this.editing=!this.editing;
+        if (!this.editing){
+            app.$.as.update(e, this)
+        }
+    }
+  });
+</script>

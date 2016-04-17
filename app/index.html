@@ -3,11 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>DnD App</title>
+        <title>D&amp;D App</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
         <!-- build:css styles/main.css -->
         <link rel="stylesheet" href="styles/main.css">
@@ -39,28 +37,29 @@
 
         paper-material.big {
             overflow: auto;
-            min-width: 300px;
-            max-width: 600px;
-            height: 400px;
+            min-width: 350px;
+            max-width: 350px;
+            height: 490px;
         }
 
         paper-material.small {
             overflow: auto;
-            width: 200px;
-            height: 130px;
+            min-width: 140px;
+            max-width: 200px;
+            height: 235px;
         }
 
         paper-material.tall {
             overflow: auto;
             min-width: 140px;
             max-width: 200px;
-            height: 500px;
+            height: 490px;
         }
 
         paper-material.med {
             overflow: auto;
-            min-width: 140px;
-            max-width: 200px;
+            min-width: 350px;
+            max-width: 350px;
             height: 235px;
         }
 
@@ -68,9 +67,9 @@
             padding: 10px;
         }
 
-        div.container.layout.iron-flex-alignment {
+        /*div.container.layout.iron-flex-alignment {
             align-items: stretch;
-        }
+        }*/
 
     </style>
 
@@ -167,21 +166,29 @@
             namespace="st">
         </dnd-doc-data>
 
+        <dnd-col-data id="spells"
+            location="[[firebaseURL]]"
+            data="{{spellsData}}"
+            user="{{user}}"
+            cid="character2"
+            namespace="spells">
+        </dnd-col-data>
+
         <div class="container layout iron-flex-alignment">
 
             <div class="container layout vertical show-combat">
-            <div class="element-padding">
-                <paper-material elevation=5 class="med">
-                    <dnd-hp></dnd-hp>
-                </paper-material>
-            </div>
+                <div class="element-padding">
+                    <paper-material elevation=5 class="small">
+                        <dnd-hp></dnd-hp>
+                    </paper-material>
+                </div>
 
-            <div class="element-padding show-combat">
-                <paper-material elevation=5 class="med">
-                    <saving-throws></saving-throws>
-                </paper-material>
+                <div class="element-padding">
+                    <paper-material elevation=5 class="small">
+                        <saving-throws></saving-throws>
+                    </paper-material>
+                </div>
             </div>
-        </div>
 
             <div class="element-padding show-combat">
                 <paper-material elevation=5 class="tall">
@@ -195,23 +202,33 @@
                 </paper-material>
             </div>
 
+            <div class="element-padding show-combat">
+                <paper-material elevation=5 class="big">
+                    <spell-list id="spellpage"></spell-list>
+                </paper-material>
+            </div>
+
+
+            <div class="container layout vertical show-combat show-town">
+                <div class="element-padding">
+                    <paper-material elevation=5 class="med">
+                        <armor-list id="alf"></armor-list>
+                    </paper-material>
+                </div>
+
+                <div class="element-padding">
+                    <paper-material elevation=5 class="med">
+                        <dnd-weapons></dnd-weapons>
+                    </paper-material>
+                </div>
+            </div>
+
             <div class="element-padding show-town">
                 <paper-material elevation=5 class="big">
                     <journal-list id="journalpage"></journal-list>
                 </paper-material>
             </div>
 
-            <div class="element-padding show-town">
-                <paper-material elevation=5 class="big">
-                    <armor-list id="alf"></armor-list>
-                </paper-material>
-            </div>
-
-            <div class="element-padding show-combat">
-                <paper-material elevation=5 class="big">
-                    <dnd-weapons></dnd-weapons>
-                </paper-material>
-            </div>
 
             <div class="element-padding show-town">
                 <paper-material elevation=5 class="big">

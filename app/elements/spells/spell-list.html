@@ -1,6 +1,6 @@
-<link rel="import" href="journal-entry.html">
+<link rel="import" href="spell-entry.html">
 
-<dom-module id="journal-list">
+<dom-module id="spell-list">
     <style>
 
         .item {
@@ -8,16 +8,6 @@
             /*flex: flex-grow;*/
             flex-grow: 3;
             flex-basis: auto;
-        }
-
-        .journals {
-            overflow: auto;
-            width: 400px;
-/*            min-width: 400px;
-            max-width: 400px;*/
-            height: 400px;
-            /*width: 40%;*/
-            /*height: 400px;*/
         }
 
         paper-icon-button[toggles][active] {
@@ -34,7 +24,7 @@
             border-top: solid 1px #666;
         }
 
-        .new-journal {
+        .new-spell {
             padding: 0px 15px 15px 15px;
         }
 
@@ -70,14 +60,14 @@
 
     <template>
         <iron-signals
-            on-iron-signal-fbupdate="_updateJournals">
+            on-iron-signal-fbupdate="_updatespells">
         </iron-signals>
 
         <paper-header-panel>
             <paper-toolbar>
                 <table width=100%>
                     <tr>
-                        <td><div class="paper-header">Journal</div></td>
+                        <td><div class="paper-header">Spells</div></td>
                         <td align="center"><paper-input
                             class="filter"
                             no-label-float
@@ -93,20 +83,20 @@
                 </table>
             </paper-toolbar>
             <ul>
-                <template id="jList" is="dom-repeat" items="{{journals}}" as="item" filter="{{jFilter(jf)}}">
+                <template id="jList" is="dom-repeat" items="{{spells}}" as="item" filter="{{jFilter(jf)}}">
                     <li>
-                        <journal-entry
+                        <spell-entry
                             name="{{item.name}}"
                             text="{{item.text}}"
                             key="{{item.__firebaseKey__}}">
-                        </journal-entry>
+                        </spell-entry>
                     </li>
                 </template>
             </ul>
-            <div class="new-journal">
+            <div class="new-spell">
                 <form is="iron-form" id="jform">
                     <paper-input id="name_field" name="name" label="New Title" required></paper-input>
-                    <paper-textarea id="text_field" name="text" label="New Journal Entry" required></paper-textarea>
+                    <paper-textarea id="text_field" name="text" label="New spell Entry" required></paper-textarea>
                     <paper-button id="sub_but" raised on-tap="_handleSubmit">Save</paper-button>
                     <div class="output"></div>
                 </form>
@@ -120,7 +110,7 @@
 
 <script>
     Polymer({
-        is: "journal-list",
+        is: "spell-list",
 
         _redraw: function() {
             this.$.jList.render();
@@ -128,15 +118,15 @@
 
         properties: {
             scroll: "true",
-            journals: {
+            spells: {
                 type: Array,
                 notify: true
             }
         },
 
-        _updateJournals: function(e) {
-            this.journals = app.$.journal.fbData;
-            if(this.journals.length == 0) {
+        _updatespells: function(e) {
+            this.spells = app.$.spells.fbData;
+            if(this.spells.length == 0) {
                 this.$.toggle.active = false;
             }
             this._redraw();
@@ -149,28 +139,28 @@
             }
             if(!this.$.jform.validate()) return;
             var entry = this.$.jform.serialize();
-            var appjournal = app.$.journal.$.ref;
-            appjournal.add(entry);
+            var appspell = app.$.spells.$.ref;
+            appspell.add(entry);
 
             this.$.text_field.value = "";
             this.$.name_field.value = "";
         },
 
         _handleEdit: function(e) {
-            if(this.journals.length == 0) {
+            if(this.spells.length == 0) {
                 this.$.toggle.active = false;
                 return;
             }
-            this.fire('iron-signal', {name: 'editjournal', data: this.namespace});
+            this.fire('iron-signal', {name: 'editspell', data: this.namespace});
         },
 
         jFilter: function(jf) {
             this.$.toggle.active = false;
-            this.fire('iron-signal', {name: 'editjournal', data: this.namespace});
-            return function(journal) {
+            this.fire('iron-signal', {name: 'editspell', data: this.namespace});
+            return function(spell) {
                 if(!jf) return true;
-                title = journal.name.toLowerCase();
-                text = journal.text.toLowerCase();
+                title = spell.name.toLowerCase();
+                text = spell.text.toLowerCase();
                 filter = jf.toLowerCase();
                 return (title.includes(filter) || text.includes(filter));
             };
