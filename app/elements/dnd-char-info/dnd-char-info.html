@@ -71,7 +71,7 @@
                         on-keyup="setLevel"
                         auto-validate
                         validator="lvlValidator"
-                        error-message="int [1,30]">
+                        error-message="int [1,∞]">
                     </paper-input>
                 </li>
                 <li>
@@ -115,12 +115,12 @@
                         on-keyup="setXP"
                         auto-validate
                         validator="xpValidator"
-                        error-message="int [1, 50000]">
+                        error-message="int [0,∞]">
                     </paper-input>
                 </li>
             </ul>
-            <paper-fab hidden={{editing}} icon="icons:create" on-tap="toggleEdit" mini></paper-fab>
-            <paper-fab hidden={{!editing}} icon="icons:done" on-tap="toggleEdit" mini></paper-fab>
+            <paper-fab hidden={{editing}} icon="icons:lock" on-tap="toggleEdit" mini></paper-fab>
+            <paper-fab hidden={{!editing}} icon="icons:lock-open" on-tap="toggleEdit" mini></paper-fab>
         </paper-header-panel>
 
     </template>
@@ -225,6 +225,7 @@
         },
 
         _validator: function(v, min, max) {
+            if (!this.editing) { return true };
             var hp = ~~v;
             if (v && !isNaN(v) && +v === hp && hp >= min && hp <= max) {
                 return true;
@@ -233,15 +234,16 @@
         },
 
         simpleValidator: function(v) {
+            if (!this.editing) { return true };
             return !!v;
         },
 
         lvlValidator: function(v) {
-            return this._validator(v, 1, 30);
+            return this._validator(v, 1, Infinity);
         },
 
         xpValidator: function(v) {
-            return this._validator(v, 1, 50000);
+            return this._validator(v, 0, Infinity);
         },
     });
 
