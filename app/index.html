@@ -142,6 +142,14 @@
             namespace="background">
         </dnd-doc-data>
 
+        <dnd-col-data id="feats"
+            location="[[firebaseURL]]"
+            data="{{featsData}}"
+            user="{{user}}"
+            cid="character2"
+            namespace="feats">
+        </dnd-col-data>
+
         <dnd-doc-data id="as"
             location="[[firebaseURL]]"
             data="{{asData}}"
@@ -229,6 +237,11 @@
                 </paper-material>
             </div>
 
+            <div class="element-padding show-town">
+                <paper-material elevation=5 class="big">
+                    <feat-list id="featpage"></feat-list>
+                </paper-material>
+            </div>
 
             <div class="element-padding show-town">
                 <paper-material elevation=5 class="big">
