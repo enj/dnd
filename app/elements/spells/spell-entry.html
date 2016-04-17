@@ -24,11 +24,13 @@
             on-iron-signal-editspell="toggleDel">
         </iron-signals>
         <table width=100% height=40><tr>
-            <td><button on-click="toggle">{{name}}</button></td>
-            <td width=40 align=right><paper-icon-button icon="expand-more" on-click="toggle" noink></paper-icon-button></td>
-            <td width=40 align=right>
-                <iron-collapse id="delcollapse" horizontal>
-                    <paper-icon-button style="color:#B00" id="del_but" icon="remove-circle" on-click="deletespell"></paper-icon-button>
+            <td>
+                <button on-click="toggle">{{name}}</button>
+            </td>
+            <td align="right">
+                <paper-icon-button icon="expand-more" on-click="toggle" noink></paper-icon-button>
+                <iron-collapse id="delcollapse" horizontal style="float:right">
+                    <paper-icon-button style="color:#B00;" id="del_but" icon="remove-circle" on-click="deleteSpell"></paper-icon-button>
                 </iron-collapse>
             </td>
         </tr></table>
@@ -59,7 +61,7 @@
             }
         },
 
-        deletespell: function() {
+        deleteSpell: function() {
             app.$.spells.$.ref.removeByKey(this.key);
         },
 
