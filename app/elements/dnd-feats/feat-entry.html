@@ -1,0 +1,74 @@
+<dom-module id="feat-entry">
+    <style>
+        .listing-wrapper {
+            display: flex;
+            padding: 10px;
+            white-space: pre-wrap;
+        }
+
+        button {
+            width: 100%;
+            text-align: left;
+            border: 0px;
+            background-color: #F8F8F8;
+        }
+
+        button:focus {
+            outline:0;
+        }
+
+    </style>
+
+    <template>
+        <iron-signals
+            on-iron-signal-editfeats="toggleDel">
+        </iron-signals>
+        <table width=100% height=40><tr>
+            <td><button on-click="toggle">{{name}}</button></td>
+            <td width=50 align=right>
+                <iron-collapse id="delcollapse" horizontal>
+                    <paper-icon-button style="color:#B00" id="del_but" icon="remove-circle" on-click="deleteFeat"></paper-icon-button>
+                </iron-collapse>
+            </td>
+        </tr></table>
+        <iron-collapse id="collapse">
+        <button on-click="toggle">
+        <div class="listing-wrapper">
+            <span>{{text}}</span>
+        </div>
+        </button>
+        <iron-collapse>
+    </template>
+
+</dom-module>
+
+<script>
+    Polymer({
+        is: "feat-entry",
+
+        properties: {
+            name: {
+                type: String,
+                notify: true
+            },
+            text: String,
+            key: {
+                type: String,
+                notify: true
+            }
+        },
+
+        deleteFeat: function() {
+            app.$.feats.$.ref.removeByKey(this.key);
+            console.log("heyyyyyyy");
+        },
+
+        toggle: function() {
+            this.$.collapse.toggle();
+        },
+
+        toggleDel: function() {
+            this.$.delcollapse.opened = app.$.featpage.$.toggle.active;
+        }
+    });
+</script>

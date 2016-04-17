@@ -1,0 +1,177 @@
+<link rel="import" href="feat-entry.html">
+
+<dom-module id="feat-list">
+    <style>
+
+        .item {
+            display: flex;
+            /*flex: flex-grow;*/
+            flex-grow: 3;
+            flex-basis: auto;
+        }
+
+        .feats {
+            overflow: auto;
+            min-width: 300px;
+            max-width: 600px;
+            height: 400px;
+            /*width: 40%;*/
+            /*height: 400px;*/
+        }
+
+        paper-icon-button[toggles][active] {
+            color: #F00;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        li + li {
+            border-top: solid 1px #666;
+        }
+
+        .new-feat {
+            padding: 0px 15px 15px 15px;
+        }
+
+        paper-toolbar {
+            background-color: #800;
+            height: 40px;
+
+          --paper-toolbar: {
+            @apply(--layout-vertical);
+          };
+        }
+
+        .filter {
+            width:120px;
+            background-color:#fff;
+            height:30px;
+            text-align:left;
+        }
+
+        paper-input.filter {
+            --paper-input-container-focus-color: transparent;
+            --paper-input-container-underline: {
+                display: none;
+            }
+            --paper-input-container: {
+                padding-left: 5px;
+                padding-right: 5px;
+                padding-top: 5px;
+            }
+        }
+
+    </style>
+
+    <template>
+        <iron-signals
+            on-iron-signal-fbupdate="_updateFeats">
+        </iron-signals>
+
+        <paper-header-panel>
+            <paper-toolbar>
+                <table width=100%>
+                    <tr>
+                        <td><div class="paper-header">Feats</div></td>
+                        <td align="center"><paper-input
+                            class="filter"
+                            no-label-float
+                            label="Filter"
+                            type="text"
+                            value="{{ff::input}}">
+                        </paper-input></td>
+                        <td align="right">
+                            <paper-icon-button id="toggle" icon="remove-circle-outline" toggles on-tap="_handleEdit">
+                            </paper-icon-button>
+                        </td>
+                    </tr>
+                </table>
+            </paper-toolbar>
+            <ul>
+                <template id="fList" is="dom-repeat" items="{{feats}}" as="item" filter="{{fFilter(ff)}}">
+                    <li>
+                        <journal-entry
+                            name="{{item.name}}"
+                            text="{{item.text}}"
+                            key="{{item.__firebaseKey__}}">
+                        </journal-entry>
+                    </li>
+                </template>
+            </ul>
+            <div class="new-feat">
+                <form is="iron-form" id="fform">
+                    <paper-input id="name_field" name="name" label="Feat Name" required></paper-input>
+                    <paper-textarea id="text_field" name="text" label="Description" required></paper-textarea>
+                    <paper-button id="sub_but" raised on-tap="_handleSubmit">Save</paper-button>
+                    <div class="output"></div>
+                </form>
+            </div>
+        </paper-header-panel>
+    </template>
+
+</dom-module>
+
+
+
+<script>
+    Polymer({
+        is: "feat-list",
+
+        _redraw: function() {
+            this.$.fList.render();
+        },
+
+        properties: {
+            scroll: "true",
+            feats: {
+                type: Array,
+                notify: true
+            }
+        },
+
+        _updateFeats: function(e) {
+            this.feats = app.$.feats.fbData;
+            if(this.feats.length == 0) {
+                this.$.toggle.active = false;
+            }
+            this._redraw();
+        },
+
+        _handleSubmit: function(e) {
+            if(this.$.toggle.active) {
+                this.$.toggle.active = false;
+                this._handleEdit(e);
+            }
+            if(!this.$.fform.validate()) return;
+            var entry = this.$.fform.serialize();
+            var appfeats = app.$.feats.$.ref;
+            appfeats.add(entry);
+
+            this.$.text_field.value = "";
+            this.$.name_field.value = "";
+        },
+
+        _handleEdit: function(e) {
+            if(this.feats.length == 0) {
+                this.$.toggle.active = false;
+                return;
+            }
+            this.fire('iron-signal', {name: 'editfeats', data: this.namespace});
+        },
+
+        fFilter: function(ff) {
+            return function(feats) {
+                if(!ff) return true;
+                title = feats.name.toLowerCase();
+                text = feats.text.toLowerCase();
+                filter = ff.toLowerCase();
+                return (title.includes(filter) || text.includes(filter));
+            };
+        }
+
+    });
+</script>
