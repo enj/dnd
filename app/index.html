@@ -166,6 +166,14 @@
             namespace="st">
         </dnd-doc-data>
 
+        <dnd-col-data id="spells"
+            location="[[firebaseURL]]"
+            data="{{spellsData}}"
+            user="{{user}}"
+            cid="character2"
+            namespace="spells">
+        </dnd-col-data>
+
         <div class="container layout iron-flex-alignment">
 
             <div class="container layout vertical show-combat">
@@ -191,6 +199,12 @@
             <div class="element-padding show-combat">
                 <paper-material elevation=5 class="big">
                     <dnd-skills></dnd-skills>
+                </paper-material>
+            </div>
+
+            <div class="element-padding show-combat">
+                <paper-material elevation=5 class="big">
+                    <spell-list></spell-list>
                 </paper-material>
             </div>
 

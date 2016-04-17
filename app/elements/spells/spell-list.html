@@ -1,0 +1,170 @@
+<link rel="import" href="spell-entry.html">
+
+<dom-module id="spell-list">
+    <style>
+
+        .item {
+            display: flex;
+            /*flex: flex-grow;*/
+            flex-grow: 3;
+            flex-basis: auto;
+        }
+
+        paper-icon-button[toggles][active] {
+            color: #F00;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        li + li {
+            border-top: solid 1px #666;
+        }
+
+        .new-spell {
+            padding: 0px 15px 15px 15px;
+        }
+
+        paper-toolbar {
+            background-color: #800;
+            height: 40px;
+
+          --paper-toolbar: {
+            @apply(--layout-vertical);
+          };
+        }
+
+        .filter {
+            width:120px;
+            background-color:#fff;
+            height:30px;
+            text-align:left;
+        }
+
+        paper-input.filter {
+            --paper-input-container-focus-color: transparent;
+            --paper-input-container-underline: {
+                display: none;
+            }
+            --paper-input-container: {
+                padding-left: 5px;
+                padding-right: 5px;
+                padding-top: 5px;
+            }
+        }
+
+    </style>
+
+    <template>
+        <iron-signals
+            on-iron-signal-fbupdate="_updatespells">
+        </iron-signals>
+
+        <paper-header-panel>
+            <paper-toolbar>
+                <table width=100%>
+                    <tr>
+                        <td><div class="paper-header">Spells</div></td>
+                        <td align="center"><paper-input
+                            class="filter"
+                            no-label-float
+                            label="Filter"
+                            type="text"
+                            value="{{jf::input}}">
+                        </paper-input></td>
+                        <td align="right">
+                            <paper-icon-button id="toggle" icon="remove-circle-outline" toggles on-tap="_handleEdit">
+                            </paper-icon-button>
+                        </td>
+                    </tr>
+                </table>
+            </paper-toolbar>
+            <ul>
+                <template id="jList" is="dom-repeat" items="{{spells}}" as="item" filter="{{jFilter(jf)}}">
+                    <li>
+                        <spell-entry
+                            name="{{item.name}}"
+                            text="{{item.text}}"
+                            key="{{item.__firebaseKey__}}">
+                        </spell-entry>
+                    </li>
+                </template>
+            </ul>
+            <div class="new-spell">
+                <form is="iron-form" id="jform">
+                    <paper-input id="name_field" name="name" label="New Title" required></paper-input>
+                    <paper-textarea id="text_field" name="text" label="New spell Entry" required></paper-textarea>
+                    <paper-button id="sub_but" raised on-tap="_handleSubmit">Save</paper-button>
+                    <div class="output"></div>
+                </form>
+            </div>
+        </paper-header-panel>
+    </template>
+
+</dom-module>
+
+
+
+<script>
+    Polymer({
+        is: "spell-list",
+
+        _redraw: function() {
+            this.$.jList.render();
+        },
+
+        properties: {
+            scroll: "true",
+            spells: {
+                type: Array,
+                notify: true
+            }
+        },
+
+        _updatespells: function(e) {
+            this.spells = app.$.spells.fbData;
+            if(this.spells.length == 0) {
+                this.$.toggle.active = false;
+            }
+            this._redraw();
+        },
+
+        _handleSubmit: function(e) {
+            if(this.$.toggle.active) {
+                this.$.toggle.active = false;
+                this._handleEdit(e);
+            }
+            if(!this.$.jform.validate()) return;
+            var entry = this.$.jform.serialize();
+            var appspell = app.$.spells.$.ref;
+            appspell.add(entry);
+
+            this.$.text_field.value = "";
+            this.$.name_field.value = "";
+        },
+
+        _handleEdit: function(e) {
+            if(this.spells.length == 0) {
+                this.$.toggle.active = false;
+                return;
+            }
+            this.fire('iron-signal', {name: 'editspell', data: this.namespace});
+        },
+
+        jFilter: function(jf) {
+            this.$.toggle.active = false;
+            this.fire('iron-signal', {name: 'editspell', data: this.namespace});
+            return function(spell) {
+                if(!jf) return true;
+                title = spell.name.toLowerCase();
+                text = spell.text.toLowerCase();
+                filter = jf.toLowerCase();
+                return (title.includes(filter) || text.includes(filter));
+            };
+        }
+
+    });
+</script>
