@@ -169,7 +169,10 @@
         },
 
         _sort: function(a, b) {
-            return (a < b)? -1 : 1;
+            if(a.checked == b.checked) {
+                return (a.name < b.name)? -1 : 1;
+            }
+            return (a.checked > b.checked)? -1 : 1;
         }
 
     });
