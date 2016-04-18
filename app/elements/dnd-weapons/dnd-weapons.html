@@ -16,6 +16,7 @@
 
         .add-weapon {
             padding: 0px 15px 15px 15px;
+            width: 300px;
         }
 
         paper-toolbar {
@@ -88,42 +89,62 @@
                         <paper-toolbar><div class="paper-header">Add Weapon</div></paper-toolbar>
                         <div style="padding:10px">
     	                <form is="iron-form" id="aform">
-    	                    <paper-input id="name_field" name="name" label="Name" required></paper-input>
-    	                    <paper-input id="dicecount_field" 
+                        <table>
+                        <tr>
+                            <td width="70%">
+    	                       <paper-input id="name_field" name="name" label="Name" required></paper-input>
+                            </td>
+                            <td> 
+    	                       <paper-input id="dicecount_field" 
                                         type="number" 
                                         name="dicecount"
                                         auto-validate
                                         label="Dice Count"
                                         error-message="int [1,20]"
                                         validator="dicecountValidator" required></paper-input>
-                            <paper-dropdown-menu label="Dice Type" selected-item-label="{{dtselected}}">
-                                <paper-listbox id="dicetype_field" class="dropdown-content" valueattr="value">
-                                    <paper-item value="3">3</paper-item>
-                                    <paper-item value="4">4</paper-item>
-                                    <paper-item value="6">6</paper-item>
-                                    <paper-item value="8">8</paper-item>
-                                    <paper-item value="10">10</paper-item>
-                                    <paper-item value="12">12</paper-item>
-                                    <paper-item value="20">20</paper-item>
-                                </paper-listbox>
-                            </paper-dropdown-menu>
-                            <input is="iron-input" name="dicetype" type="hidden" value$="[[dtselected]]">
-
-                            <paper-dropdown-menu label="Attribute" selected-item-label="{{attselected}}">
-                                <paper-listbox id="weaponattribute_field" class="dropdown-content">
-                                    <paper-item value="None">None</paper-item>
-                                    <paper-item value="Strength">Strength</paper-item>
-                                    <paper-item value="Dexterity">Dexterity</paper-item>
-                                    <paper-item value="Constitution">Constitution</paper-item>
-                                    <paper-item value="Intelligence">Intelligence</paper-item>
-                                    <paper-item value="Wisdom">Wisdom</paper-item>
-                                    <paper-item value="Charisma">Charisma</paper-item>
-                                </paper-listbox>
-                            </paper-dropdown-menu>
-                            <input is="iron-input" name="weaponattribute" type="hidden" value$="[[attselected]]">
+                            </td>
+                        </tr>
+                        </table>
+                        <table>
+                        <tr>
+                            <td width="50%">
+                                <paper-dropdown-menu label="Dice Type" selected-item-label="{{dtselected}}">
+                                    <paper-listbox id="dicetype_field" class="dropdown-content" valueattr="value">
+                                        <paper-item value="3">3</paper-item>
+                                        <paper-item value="4">4</paper-item>
+                                        <paper-item value="6">6</paper-item>
+                                        <paper-item value="8">8</paper-item>
+                                        <paper-item value="10">10</paper-item>
+                                        <paper-item value="12">12</paper-item>
+                                        <paper-item value="20">20</paper-item>
+                                    </paper-listbox>
+                                </paper-dropdown-menu>
+                                <input is="iron-input" name="dicetype" type="hidden" value$="[[dtselected]]" style="width: 0px;">
+                            </td>
+                            <td>
+                                <paper-dropdown-menu label="Attribute" selected-item-label="{{attselected}}">
+                                    <paper-listbox id="weaponattribute_field" class="dropdown-content">
+                                        <paper-item value="None">None</paper-item>
+                                        <paper-item value="Strength">Strength</paper-item>
+                                        <paper-item value="Dexterity">Dexterity</paper-item>
+                                        <paper-item value="Constitution">Constitution</paper-item>
+                                        <paper-item value="Intelligence">Intelligence</paper-item>
+                                        <paper-item value="Wisdom">Wisdom</paper-item>
+                                        <paper-item value="Charisma">Charisma</paper-item>
+                                    </paper-listbox>
+                                </paper-dropdown-menu>
+                                <input is="iron-input" name="weaponattribute" type="hidden" value$="[[attselected]]">
+                            </td>
+                        </tr>
+                        <tr><td width="50%">
     	                    <paper-input id="weight_field" type="number" name="weight" label="Weight"></paper-input>
+                            </td><td>
                             <paper-input id="bonus_field" type="number" name="bonus" value="0" label="Bonus"></paper-input>
-    	                    <paper-button id="add_but" raised on-tap="_handleSubmit">Save</paper-button>
+    	                    </td>
+                        </tr>
+                        </table>
+                            <paper-button id="add_but" raised on-tap="_handleSubmit">Save</paper-button>
+                            
                             <paper-button style="color: red !important;" raised on-tap="toggle">Cancel</paper-button>
     	                    <div class="output"></div>
     	                </form>
