@@ -6,9 +6,12 @@
         </iron-signals>
         <table width=100% height=40><tr>
             <td>{{name}}</td>
-            <td width=50 align=center>{{weight}}</td>
-            <td width=50 align=center>{{power}}</td>
-            <td width=40 align=right>
+            <td width=20 align=left>{{dicecount}}</td>
+            <td width=35 align=left>{{dicetype}}</td>
+            <td width=70 align=center>{{weaponattribute}}</td>
+            <td width=30 align=center>{{weight}}</td>
+            <td width=55 align=center>{{attacks}}</td>
+            <td width=5 align=right>
                 <iron-collapse id="delcollapse" horizontal>
                 <paper-icon-button style="color:#B00" id="del_but" icon="remove-circle" class="delete" on-click="deleteWeapon">
                 </paper-icon-button>
@@ -28,14 +31,23 @@
                 type: String,
                 notify: true
             },
-            power: {
-            	type: String,
-            	notify: true
+            dicecount: {
+                type: Number,
+                notify: true
+            },
+            dicetype: {
+                type: Number,
+                notify: true
+            },
+            weaponattribute: {
+                type: String,
+                notify: true
             },
             weight: {
             	type: Number,
             	notify: true
             },
+            attacks: String,
             key: {
                 type: String,
                 notify: true
@@ -48,6 +60,12 @@
 
         toggleDel: function() {
             this.$.delcollapse.toggle();
+        },
+
+        ready: function() {
+            var hitDiceB = app.asData[this.weaponattribute.toLowerCase()] + app.hpData.pb;
+            var damage = (this.dicecount * this.dicetype) + app.asData[this.weaponattribute.toLowerCase()];
+            this.attacks = damage + "/" + hitDiceB;
         }
     });
 </script>

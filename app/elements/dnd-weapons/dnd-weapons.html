@@ -39,6 +39,7 @@
 	</style>
 
 	<template>
+    <dicecount-validator id="dcValid" validator-name="dicecountValidator"></dicecount-validator>
 		<iron-signals
             on-iron-signal-fbupdate="_updateWeapons">
         </iron-signals>
@@ -56,17 +57,22 @@
                     </paper-toolbar>
 	        	<ul>
 	        		<table width=100% style="color: #888;"><tr>
-	                    <td>Weapon</td>
-	                    <td width=60 align=center>Weight</td>
-                        <td width=60 align=center>Power</td>
-	                    <td width=35 align=right></td>
+	                    <td>Name</td>
+                        <td width=20 align=left>DC</td>
+                        <td width=35 align=center>DType</td>
+                        <td width=70 align=center>Attrib</td>
+	                    <td width=25 align=left>W</td>
+                        <td width=30 align=right>Dam/HB</td>
+	                    <td width=5 align=right></td>
 	                </table>
 	                <template id="weaponsList" is="dom-repeat" items="{{weapons}}" as="weapon">
 	                    <li>
 	                        <dnd-weapon
 	                            name="{{weapon.name}}"
+                                dicecount="{{weapon.dicecount}}"
+                                dicetype="{{weapon.dicetype}}"
+                                weaponattribute="{{weapon.weaponattribute}}"
 	                            weight="{{weapon.weight}}"
-	                            power="{{weapon.power}}"
 	                            key="{{weapon.__firebaseKey__}}">
 	                        </dnd-weapon>
 	                    </li>
@@ -81,19 +87,38 @@
                         <div style="padding:10px">
     	                <form is="iron-form" id="aform">
     	                    <paper-input id="name_field" name="name" label="Name" required></paper-input>
-    	                    <!--<paper-input id="power_field" type="number" name="power" label="Power" value=0></paper-input>-->
-                            <paper-dropdown-menu label="Power of Your weapon" selected-item-label="{{selected}}">
-                                <paper-listbox id="power_field" class="dropdown-content">
-                                    <paper-item value="None">None</paper-item>
-                                    <paper-item value="1d3">1d3</paper-item>
-                                    <paper-item value="1d4">1d4</paper-item>
-                                    <paper-item value="1d6">1d6</paper-item>
-                                    <paper-item value="1d8">1d8</paper-item>
-                                    <paper-item value="1d10">1d10</paper-item>
-                                    <paper-item value="1d12">1d12</paper-item>
+    	                    <paper-input id="dicecount_field" 
+                                        type="number" 
+                                        name="dicecount"
+                                        auto-validate
+                                        label="Dice Count"
+                                        error-message="int [1,20]"
+                                        validator="dicecountValidator" required></paper-input>
+                            <paper-dropdown-menu label="Dice Type" selected-item-label="{{dtselected}}">
+                                <paper-listbox id="dicetype_field" class="dropdown-content" valueattr="value">
+                                    <paper-item value="3">3</paper-item>
+                                    <paper-item value="4">4</paper-item>
+                                    <paper-item value="6">6</paper-item>
+                                    <paper-item value="8">8</paper-item>
+                                    <paper-item value="10">10</paper-item>
+                                    <paper-item value="12">12</paper-item>
+                                    <paper-item value="20">20</paper-item>
                                 </paper-listbox>
                             </paper-dropdown-menu>
-                            <input is="iron-input" name="power" type="hidden" value$="[[selected]]">
+                            <input is="iron-input" name="dicetype" type="hidden" value$="[[dtselected]]">
+
+                            <paper-dropdown-menu label="Attribute" selected-item-label="{{attselected}}">
+                                <paper-listbox id="weaponattribute_field" class="dropdown-content">
+                                    <paper-item value="Strength">Strength</paper-item>
+                                    <paper-item value="Dexterity">Dexterity</paper-item>
+                                    <paper-item value="Constitution">Constitution</paper-item>
+                                    <paper-item value="Intelligence">Intelligence</paper-item>
+                                    <paper-item value="Wisdom">Wisdom</paper-item>
+                                    <paper-item value="Charisma">Charisma</paper-item>
+                                </paper-listbox>
+                            </paper-dropdown-menu>
+                            <input is="iron-input" name="weaponattribute" type="hidden" value$="[[attselected]]">
+
     	                    <paper-input id="weight_field" type="number" name="weight" label="Weight"></paper-input>
     	                    <paper-button id="add_but" raised on-tap="_handleSubmit">Save</paper-button>
                             <paper-button style="color: red !important;" raised on-tap="toggle">Cancel</paper-button>
@@ -116,6 +141,10 @@
 
         _redraw: function() {
             this.$.weaponsList.render();
+        },
+
+        ready: function() {
+            this.$.dcValid.validate = this.dicecountValidator.bind(this);
         },
 
         properties: {
@@ -147,12 +176,10 @@
 
             this.$.name_field.value = "";
             this.$.weight_field.value = "";
-            this.$.power_field.selected = "";
         },
 
         toggle: function() {
             this.$.addWeaponDialog.toggle();
-            this.$.power_field.selected = "";
         },
 
         _handleEdit: function(e) {
@@ -161,8 +188,28 @@
                 return;
             }
             this.fire('iron-signal', {name: 'editweapons', data: this.namespace});
+        },
+
+        _validator: function(v, min, max) {
+            var hp = ~~v;
+            if (v && !isNaN(v) && +v === hp && hp >= min && hp <= max) {
+                return true;
+            }
+            return false;
+        },
+
+        dicecountValidator: function(v) {
+            return this._validator(v, 1, 20);
         }
 
+    });
+
+    Polymer({
+        is: "dicecount-validator",
+
+        behaviors: [
+            Polymer.IronValidatorBehavior
+        ],
     });
 
 </script>
