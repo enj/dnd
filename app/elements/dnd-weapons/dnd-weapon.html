@@ -90,12 +90,12 @@
         },
 
         _damage: function(dc, dt, att) {
-            var modd = (att.localeCompare("None") === 0)? 0 : app.$.asf.getModifier(att.toLowerCase());
+            var modd = (att === "None")? 0 : app.$.asf.getModifier(att.toLowerCase());
             return "" + dc + "d" + dt + " + " + modd;
         },
 
         _hitbonus: function(att) {
-            var attInt = (att.localeCompare("None") === 0)? 0 : app.$.asf.getModifier(att.toLowerCase());
+            var attInt = ((att === "None"))? 0 : app.$.asf.getModifier(att.toLowerCase());
             var bp = app.hpData.pb;
             return attInt + bp;
         }
