@@ -57,9 +57,9 @@
 	        	<ul>
 	        		<table width=100% style="color: #888;"><tr>
 	                    <td>Weapon</td>
-	                    <td width=50 align=center>Weight</td>
-                        <td width=50 align=center>Power</td>
-	                    <td width=40 align=right></td>
+	                    <td width=60 align=center>Weight</td>
+                        <td width=60 align=center>Power</td>
+	                    <td width=35 align=right></td>
 	                </table>
 	                <template id="weaponsList" is="dom-repeat" items="{{weapons}}" as="weapon">
 	                    <li>
@@ -81,7 +81,19 @@
                         <div style="padding:10px">
     	                <form is="iron-form" id="aform">
     	                    <paper-input id="name_field" name="name" label="Name" required></paper-input>
-    	                    <paper-input id="power_field" type="number" name="power" label="Power" value=0></paper-input>
+    	                    <!--<paper-input id="power_field" type="number" name="power" label="Power" value=0></paper-input>-->
+                            <paper-dropdown-menu label="Power of Your weapon" selected-item-label="{{selected}}">
+                                <paper-listbox id="power_field" class="dropdown-content">
+                                    <paper-item value="None">None</paper-item>
+                                    <paper-item value="1d3">1d3</paper-item>
+                                    <paper-item value="1d4">1d4</paper-item>
+                                    <paper-item value="1d6">1d6</paper-item>
+                                    <paper-item value="1d8">1d8</paper-item>
+                                    <paper-item value="1d10">1d10</paper-item>
+                                    <paper-item value="1d12">1d12</paper-item>
+                                </paper-listbox>
+                            </paper-dropdown-menu>
+                            <input is="iron-input" name="power" type="hidden" value$="[[selected]]">
     	                    <paper-input id="weight_field" type="number" name="weight" label="Weight"></paper-input>
     	                    <paper-button id="add_but" raised on-tap="_handleSubmit">Save</paper-button>
                             <paper-button style="color: red !important;" raised on-tap="toggle">Cancel</paper-button>
@@ -135,11 +147,12 @@
 
             this.$.name_field.value = "";
             this.$.weight_field.value = "";
-            this.$.power_field.value = 0;
+            this.$.power_field.selected = "";
         },
 
         toggle: function() {
             this.$.addWeaponDialog.toggle();
+            this.$.power_field.selected = "";
         },
 
         _handleEdit: function(e) {
