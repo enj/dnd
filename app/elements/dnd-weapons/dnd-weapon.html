@@ -7,22 +7,21 @@
         <iron-signals
             on-iron-signal-fbupdate="_update">
         </iron-signals>
+        <div>
         <table width=100% height=40><tr>
-            <td>{{name}}</td>
-           <!--  <td width=20 align=left>{{dicecount}}</td>
-            <td width=35 align=left>{{dicetype}}</td>
-            <td width=70 align=center>{{weaponattribute}}</td> -->
-            <td width=30 align=center>{{bonus}}</td>
-            <td width=30 align=center>{{weight}}</td>
-            <td width=75 align=center>[[damage]]</td>
-            <td width=75 align=center>[[hitbonus]]</td>
-            <td width=5 align=right>
+            <td id="tb">{{name}}</td>
+            <td width=70 align=center>{{weaponattribute}}</td>
+            <td width=50 align=center>[[hitbonus]]</td>
+            <td width=50 align=left>[[damage]]</td>
+            <td width=50 align=center>{{weight}}</td>
+            <td width=15 align=right>
                 <iron-collapse id="delcollapse" horizontal>
                 <paper-icon-button style="color:#B00" id="del_but" icon="remove-circle" class="delete" on-click="deleteWeapon">
                 </paper-icon-button>
                 </iron-collapse>
             </td>
         </tr></table>
+        </div>
     </template>
 
 </dom-module>
@@ -81,23 +80,25 @@
         },
 
         _update: function(e) {
-            if (e.detail === "as" && app.asData[this.weaponattribute.toLowerCase()] !== undefined) {
+            if (e.detail === "as" && app.asData[this.weaponattribute] !== undefined) {
                 // hack to recalculate computed score value
-                var k = this.weaponattribute.toLowerCase();
+                var k = this.weaponattribute;
                 this.weaponattribute = undefined;
                 this.weaponattribute = k;
             }
         },
 
         _damage: function(dc, dt, att) {
-            var modd = (att === "None")? 0 : app.$.asf.getModifier(att.toLowerCase());
-            return "" + dc + "d" + dt + " + " + modd;
+            var modd = (att === "None")? 0 : app.$.asf.getModifier(att);
+            var sign = (modd >= 0)? "+" : "-";
+            return "" + dc + "d" + dt + sign + Math.abs(modd);
         },
 
         _hitbonus: function(att) {
-            var attInt = ((att === "None"))? 0 : app.$.asf.getModifier(att.toLowerCase());
+            var attInt = ((att === "None"))? 0 : app.$.asf.getModifier(att);
             var bp = app.hpData.pb;
-            return attInt + bp;
+            var value = (attInt + bp);
+            return ((value >= 0)? "+":"") + value;
         }
     });
 </script>

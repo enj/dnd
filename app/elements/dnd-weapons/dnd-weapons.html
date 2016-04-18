@@ -63,12 +63,11 @@
 	        	<ul>
 	        		<table width=100% style="color: #888;"><tr>
 	                    <td>Name</td>
-                        <!-- <td width=20 align=left>DC</td>
-                        <td width=35 align=center>DType</td>
-                        <td width=70 align=center>Attrib</td> -->
-	                    <td width=25 align=left>Weight</td>
-                        <td width=75 align=right>Damage</td>
-	                    <td width=5 align=right></td>
+                        <td width=70 align=center>Attr</td>
+	                    <td width=50 align=center>H-B</td>
+                        <td width=50 align=center>Dmg</td>
+                        <td width=30 align=center>Weight</td>
+	                    <td width=15 align=right></td>
 	                </table>
 	                <template id="weaponsList" is="dom-repeat" items="{{weapons}}" as="weapon">
 	                    <li>
@@ -78,6 +77,7 @@
                                 dicetype="{{weapon.dicetype}}"
                                 weaponattribute="{{weapon.weaponattribute}}"
 	                            weight="{{weapon.weight}}"
+                                bonus="{{weapon.bonus}}"
 	                            key="{{weapon.__firebaseKey__}}">
 	                        </dnd-weapon>
 	                    </li>
@@ -122,15 +122,15 @@
                                 <input is="iron-input" name="dicetype" type="hidden" value$="[[dtselected]]" style="width: 0px;">
                             </td>
                             <td>
-                                <paper-dropdown-menu label="Attribute" selected-item-label="{{attselected}}">
+                                <paper-dropdown-menu label="Attribute" selected-item-label="{{attselected}}" attr-for-selected="value">
                                     <paper-listbox id="weaponattribute_field" class="dropdown-content">
                                         <paper-item value="None">None</paper-item>
-                                        <paper-item value="Strength">Strength</paper-item>
-                                        <paper-item value="Dexterity">Dexterity</paper-item>
-                                        <paper-item value="Constitution">Constitution</paper-item>
-                                        <paper-item value="Intelligence">Intelligence</paper-item>
-                                        <paper-item value="Wisdom">Wisdom</paper-item>
-                                        <paper-item value="Charisma">Charisma</paper-item>
+                                        <paper-item value="strength">strength</paper-item>
+                                        <paper-item value="dexterity">dexterity</paper-item>
+                                        <paper-item value="constitution">constitution</paper-item>
+                                        <paper-item value="intelligence">intelligence</paper-item>
+                                        <paper-item value="wisdom">wisdom</paper-item>
+                                        <paper-item value="charisma">charisma</paper-item>
                                     </paper-listbox>
                                 </paper-dropdown-menu>
                                 <input is="iron-input" name="weaponattribute" type="hidden" value$="[[attselected]]">
