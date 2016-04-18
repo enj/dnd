@@ -28,7 +28,10 @@
             <td>
                 <button on-click="toggle">{{name}}</button>
             </td>
-            <td align="right">
+            <td width=30 align="right">
+                {{level}}
+            </td>
+            <td width=80 align="right">
                 <paper-icon-button icon="expand-more" on-click="toggle" noink></paper-icon-button>
                 <iron-collapse id="delcollapse" horizontal style="float:right">
                     <paper-icon-button style="color:#B00;" id="del_but" icon="remove-circle" on-click="deleteSpell"></paper-icon-button>
