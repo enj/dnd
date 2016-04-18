@@ -24,6 +24,7 @@
             on-iron-signal-editspell="toggleDel">
         </iron-signals>
         <table width=100% height=40><tr>
+            <td width=50 align=left><paper-icon-button id="cbutton" on-tap="_toggleCheck" icon="radio-button-unchecked"></paper-icon-button></td>
             <td>
                 <button on-click="toggle">{{name}}</button>
             </td>
@@ -50,6 +51,11 @@
         is: "spell-entry",
 
         properties: {
+            checked: {
+                type: Boolean,
+                notify: true,
+                observer: "_updateCheckIcon",
+            },
             name: {
                 type: String,
                 notify: true
@@ -58,7 +64,8 @@
             key: {
                 type: String,
                 notify: true
-            }
+            },
+            level: Number
         },
 
         deleteSpell: function() {
@@ -71,6 +78,20 @@
 
         toggleDel: function() {
             this.$.delcollapse.opened = app.$.spellpage.$.toggle.active;
+        },
+
+        _toggleCheck: function(e) {
+            this.checked = !this.checked;
+            c = this.checked || false
+            obj = app.$.spells.$.ref.getByKey(this.key)
+            app.$.spells.$.ref.removeByKey(this.key)
+            delete obj['__firebaseKey__']
+            obj['checked'] = c
+            app.$.spells.$.ref.add(obj)
+        },
+
+        _updateCheckIcon: function(checked) {
+            this.$.cbutton.icon = checked ? "check-circle" : "radio-button-unchecked";
         }
     });
 </script>
