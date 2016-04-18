@@ -51,7 +51,7 @@
 
         paper-material.tall {
             overflow: auto;
-            min-width: 140px;
+            min-width: 133px;
             max-width: 200px;
             height: 490px;
         }
@@ -192,6 +192,12 @@
 
         <div class="container layout iron-flex-alignment">
 
+            <div class="element-padding show-town">
+                <paper-material elevation=5 class="big">
+                    <dnd-char-info></dnd-char-info>
+                </paper-material>
+            </div>
+
             <div class="container layout vertical show-combat">
                 <div class="element-padding">
                     <paper-material elevation=5 class="small">
@@ -212,10 +218,17 @@
                 </paper-material>
             </div>
 
-            <div class="element-padding show-combat">
-                <paper-material elevation=5 class="big">
-                    <dnd-skills></dnd-skills>
-                </paper-material>
+            <div class="container layout vertical show-combat show-town">
+                <div class="element-padding">
+                    <paper-material elevation=5 class="med">
+                        <dnd-weapons></dnd-weapons>
+                    </paper-material>
+                </div>
+                <div class="element-padding">
+                    <paper-material elevation=5 class="med">
+                        <armor-list id="alf"></armor-list>
+                    </paper-material>
+                </div>
             </div>
 
             <div class="element-padding show-combat">
@@ -224,30 +237,21 @@
                 </paper-material>
             </div>
 
-
-            <div class="container layout vertical show-combat show-town">
-                <div class="element-padding">
-                    <paper-material elevation=5 class="med">
-                        <armor-list id="alf"></armor-list>
-                    </paper-material>
-                </div>
-
-                <div class="element-padding">
-                    <paper-material elevation=5 class="med">
-                        <dnd-weapons></dnd-weapons>
-                    </paper-material>
-                </div>
-            </div>
-
-            <div class="element-padding show-town">
+            <div class="element-padding show-combat">
                 <paper-material elevation=5 class="big">
-                    <journal-list id="journalpage"></journal-list>
+                    <dnd-skills></dnd-skills>
                 </paper-material>
             </div>
 
             <div class="element-padding show-combat">
                 <paper-material elevation=5 class="big">
                     <feat-list id="featpage"></feat-list>
+                </paper-material>
+            </div>
+
+            <div class="element-padding show-town">
+                <paper-material elevation=5 class="big">
+                    <journal-list id="journalpage"></journal-list>
                 </paper-material>
             </div>
 
@@ -260,12 +264,6 @@
             <div class="element-padding show-town">
                 <paper-material elevation=5 class="big">
                     <dnd-background></dnd-background>
-                </paper-material>
-            </div>
-
-            <div class="element-padding show-town">
-                <paper-material elevation=5 class="big">
-                    <dnd-char-info></dnd-char-info>
                 </paper-material>
             </div>
 
