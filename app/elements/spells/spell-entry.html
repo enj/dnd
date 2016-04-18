@@ -82,12 +82,12 @@
 
         _toggleCheck: function(e) {
             this.checked = !this.checked;
-            c = this.checked || false
-            obj = app.$.spells.$.ref.getByKey(this.key)
-            app.$.spells.$.ref.removeByKey(this.key)
-            delete obj['__firebaseKey__']
-            obj['checked'] = c
-            app.$.spells.$.ref.add(obj)
+            c = this.checked || false;
+            obj = app.$.spells.$.ref.getByKey(this.key);
+            app.$.spells.$.ref.removeByKey(this.key);
+            delete obj['__firebaseKey__'];
+            obj['checked'] = c;
+            app.$.spells.$.ref.add(obj);
         },
 
         _updateCheckIcon: function(checked) {

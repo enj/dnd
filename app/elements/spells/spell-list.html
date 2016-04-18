@@ -83,7 +83,7 @@
                 </table>
             </paper-toolbar>
             <ul>
-                <template id="jList" is="dom-repeat" items="{{spells}}" as="item" filter="{{jFilter(jf)}}">
+                <template id="jList" is="dom-repeat" items="{{spells}}" as="item" filter="{{jFilter(jf)}}" sort="_sort">
                     <li>
                         <spell-entry
                             name="{{item.name}}"
@@ -166,6 +166,10 @@
                 filter = jf.toLowerCase();
                 return (title.includes(filter) || text.includes(filter));
             };
+        },
+
+        _sort: function(a, b) {
+            return (a < b)? -1 : 1;
         }
 
     });
