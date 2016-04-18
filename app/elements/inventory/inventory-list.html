@@ -124,13 +124,13 @@
         },
 
         _handleSubmit: function(e) {
+            if(!this.$.aform.validate()) return;
             this.$.addInvDialog.toggle();
             if(this.$.toggle.active) {
                 this.$.toggle.active = false;
                 this._handleEdit(e);
             }
             var entry = this.$.aform.serialize();
-            if(!this.$.aform.validate()) return;
             var appinventory = app.$.inventory.$.ref;
             appinventory.add(entry);
 
