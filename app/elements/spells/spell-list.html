@@ -184,11 +184,13 @@
             }
             var entry = this.$.spellform.serialize();
             entry['level'] = ~~entry['level'];
+            entry['checked'] = false;
             var appspell = app.$.spells.$.ref;
             appspell.add(entry);
 
             this.$.text_field.value = "";
             this.$.name_field.value = "";
+            this.$.level_field.value= "";
         },
 
         _handleEdit: function(e) {
@@ -212,8 +214,8 @@
         },
 
         _sort: function(a, b) {
-            if(a.checked == b.checked) {
-                if(a.level == b.level) {
+            if(a.checked === b.checked) {
+                if(a.level === b.level) {
                     return (a.name < b.name)? -1 : 1;
                 }
                 return (a.level > b.level)? -1 : 1;
