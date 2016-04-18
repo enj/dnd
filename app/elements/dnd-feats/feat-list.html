@@ -90,6 +90,10 @@
             <paper-toolbar>
                 <table width=100%>
                     <tr>
+                        <td width="40">
+                            <paper-icon-button icon="add-circle-outline" style="color:white" title="test" on-click="toggle">
+                            </paper-icon-button>
+                        </td>
                         <td><div class="paper-header">Feats</div></td>
                         <td align="center"><paper-input
                             class="filter"
@@ -116,9 +120,6 @@
                     </li>
                 </template>
             </ul>
-
-            <paper-icon-button icon="add-circle-outline" style="color:green" title="test" on-click="toggle">
-            </paper-icon-button>
             <paper-dialog id="addFeatDialog" withBackdrop="true" modal>
                 <div class="add-feat">
                     <paper-toolbar><div class="paper-header">Add Feat</div></paper-toolbar>

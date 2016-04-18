@@ -47,6 +47,10 @@
                     <paper-toolbar>
                         <table width=100%>
                             <tr>
+                                <td width="40">
+                                    <paper-icon-button icon="add-circle-outline" style="color:white" title="test" on-click="toggle">
+                                    </paper-icon-button>
+                                </td>
                                 <td><div class="paper-header">Inventory</div></td>
                                 <td align="right">
                                 <paper-icon-button id="toggle" icon="remove-circle-outline" toggles on-tap="_handleEdit">
@@ -74,7 +78,6 @@
 	                </template>
 	        	</ul>
 
-                <paper-icon-button icon="add-circle-outline" style="color:green" title="test" on-click="toggle"></paper-icon-button>
 
 	            <paper-dialog id="addInvDialog" withBackdrop="true" modal>
     	            <div class="add-inv-item">

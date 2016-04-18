@@ -82,6 +82,10 @@
             <paper-toolbar>
                 <table width=100%>
                     <tr>
+                        <td width="40">
+                            <paper-icon-button icon="add-circle-outline" style="color:white" title="test" on-click="toggle">
+                            </paper-icon-button>
+                        </td>
                         <td><div class="paper-header">Spells</div></td>
                         <td align="center"><paper-input
                             class="filter"
@@ -90,7 +94,7 @@
                             type="text"
                             value="{{jf::input}}">
                         </paper-input></td>
-                        <td align="right">
+                        <td width="40" align="right">
                             <paper-icon-button id="toggle" icon="remove-circle-outline" toggles on-tap="_handleEdit">
                             </paper-icon-button>
                         </td>
@@ -116,8 +120,6 @@
                     </li>
                 </template>
             </ul>
-            <paper-icon-button icon="add-circle-outline" style="color:green" title="test" on-click="toggle">
-            </paper-icon-button>
             <paper-dialog id="addSpellDialog" withBackdrop="true" modal>
                 <div class="add-spell">
                     <paper-toolbar><div class="paper-header">Add Spell</div></paper-toolbar>
