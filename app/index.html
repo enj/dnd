@@ -1,4 +1,6 @@
 <!doctype html>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -61,6 +63,13 @@
             min-width: 350px;
             max-width: 350px;
             height: 235px;
+        }
+
+        paper-material.wide {
+            overflow: auto;
+            min-width: 710px;
+            max-width: 1460px;
+            height: 172px;
         }
 
         div.element-padding {
@@ -190,13 +199,13 @@
             namespace="ci">
         </dnd-doc-data>
 
-        <div class="container layout iron-flex-alignment">
+        <div class="element-padding show-town">
+            <paper-material elevation=5 class="wide">
+                <dnd-char-info></dnd-char-info>
+            </paper-material>
+        </div>
 
-            <div class="element-padding show-town">
-                <paper-material elevation=5 class="big">
-                    <dnd-char-info></dnd-char-info>
-                </paper-material>
-            </div>
+        <div class="container layout iron-flex-alignment">
 
             <div class="container layout vertical show-combat">
                 <div class="element-padding">
@@ -270,6 +279,26 @@
         </div>
 
     </template>
+
+    <script>
+        window.onresize = function() {
+            resize();
+        }
+
+        window.onload = function() {
+            resize();
+        }
+
+        function resize() {
+            var width = window.innerWidth;
+            if(width > 720 && width <= 1125) {
+                width = 720;
+            } else if(width > 1125 && width <= 1495) {
+                width = 1090
+            }
+            $("paper-material.wide").width(width);
+        }
+    </script>
 
     <!-- build:js scripts/app.js -->
     <script src="scripts/app.js"></script>

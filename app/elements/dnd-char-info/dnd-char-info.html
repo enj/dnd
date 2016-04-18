@@ -27,6 +27,18 @@
             height: 30px;
             padding: 0px 10px 25px 0px;
         }
+
+        .chinput {
+            width: 25%;
+            padding: 0px 0px 0px 0px;
+        }
+
+        .container {
+            display: flex;
+            padding: 0px 10px 0px 10px;
+            flex-wrap: wrap;
+        }
+
     </style>
 
     <template>
@@ -40,8 +52,10 @@
             <paper-toolbar>
                 <div class="paper-header">Character Information</div>
             </paper-toolbar>
-            <ul>
-                <li>
+<!--             <ul>
+                <li> -->
+                    <div class="container layout iron-flex-alignment">
+                    <div class="chinput">
                     <paper-input
                         label="Name"
                         readonly="{{!editing}}"
@@ -51,8 +65,10 @@
                         validator="simpleValidator"
                         error-message="non-empty">
                     </paper-input>
-                </li>
-                <li>
+                </div>
+<!--                 </li>
+                <li> -->
+                    <div class="chinput">
                     <paper-input
                         label="Class"
                         readonly="{{!editing}}"
@@ -62,8 +78,10 @@
                         validator="simpleValidator"
                         error-message="non-empty">
                     </paper-input>
-                </li>
-                <li>
+                </div>
+<!--                 </li>
+                <li> -->
+                    <div class="chinput">
                     <paper-input
                         label="Level"
                         readonly="{{!editing}}"
@@ -73,8 +91,10 @@
                         validator="lvlValidator"
                         error-message="int [1,∞]">
                     </paper-input>
-                </li>
-                <li>
+                </div>
+<!--                 </li>
+                <li> -->
+                    <div class="chinput">
                     <paper-input
                         label="Background"
                         readonly="{{!editing}}"
@@ -84,8 +104,10 @@
                         validator="simpleValidator"
                         error-message="non-empty">
                     </paper-input>
-                </li>
-                <li>
+                </div>
+<!--                 </li>
+                <li> -->
+                    <div class="chinput">
                     <paper-input
                         label="Race"
                         readonly="{{!editing}}"
@@ -95,8 +117,10 @@
                         validator="simpleValidator"
                         error-message="non-empty">
                     </paper-input>
-                </li>
-                <li>
+                </div>
+<!--                 </li>
+                <li> -->
+                    <div class="chinput">
                     <paper-input
                         label="Alignment"
                         readonly="{{!editing}}"
@@ -106,8 +130,10 @@
                         validator="simpleValidator"
                         error-message="non-empty">
                     </paper-input>
-                </li>
-                <li>
+                    </div>
+<!--                 </li>
+                <li> -->
+                    <div class="chinput">
                     <paper-input
                         label="Experience Points"
                         readonly="{{!editing}}"
@@ -117,8 +143,10 @@
                         validator="xpValidator"
                         error-message="int [0,∞]">
                     </paper-input>
-                </li>
-            </ul>
+                </div>
+<!--                 </li>
+            </ul> -->
+        </div>
             <paper-fab hidden={{editing}} icon="icons:lock" on-tap="toggleEdit" mini></paper-fab>
             <paper-fab hidden={{!editing}} icon="icons:lock-open" on-tap="toggleEdit" mini></paper-fab>
         </paper-header-panel>
