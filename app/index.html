@@ -67,8 +67,8 @@
 
         paper-material.wide {
             overflow: auto;
-            min-width: 350px;
-            max-width: 1460px;
+            /*min-width: 350px;
+            max-width: 1460px;*/
             height: 172px;
         }
 
@@ -213,7 +213,7 @@
             </paper-material>
         </div>
 
-        <div class="container layout iron-flex-alignment">
+        <div id="maingroup" class="container layout iron-flex-alignment">
 
             <div class="container layout vertical show-combat">
                 <div class="element-padding">
@@ -254,21 +254,23 @@
                 </paper-material>
             </div>
 
-            <div class="element-padding show-combat">
-                <paper-material elevation=5 class="big">
-                    <class-skills-list id="classskillspage"></class-skills-list>
-                </paper-material>
+            <div class="container layout vertical show-combat">
+                <div class="element-padding">
+                    <paper-material elevation=5 class="med">
+                        <class-skills-list id="classskillspage"></class-skills-list>
+                    </paper-material>
+                </div>
+
+                <div class="element-padding">
+                    <paper-material elevation=5 class="med">
+                        <feat-list id="featpage"></feat-list>
+                    </paper-material>
+                </div>
             </div>
 
             <div class="element-padding show-combat">
                 <paper-material elevation=5 class="big">
                     <dnd-skills></dnd-skills>
-                </paper-material>
-            </div>
-
-            <div class="element-padding show-combat">
-                <paper-material elevation=5 class="big">
-                    <feat-list id="featpage"></feat-list>
                 </paper-material>
             </div>
 
@@ -304,14 +306,8 @@
         }
 
         function resize() {
-            var width = window.innerWidth;
-            if(width > 360 && width <= 754) {
-                width = 350
-            } else if(width > 720 && width <= 1124) {
-                width = 720;
-            } else if(width > 1124 && width <= 1494) {
-                width = 1090
-            }
+            var width = $(maingroup).width();
+            width = Math.floor((width-370)/370) * 370 + 350;
             $("paper-material.wide").width(width);
         }
     </script>
