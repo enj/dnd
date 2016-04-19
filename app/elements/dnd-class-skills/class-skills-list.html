@@ -1,0 +1,210 @@
+<link rel="import" href="class-skill.html">
+
+<dom-module id="class-skills-list">
+    <style>
+
+        .item {
+            display: flex;
+            /*flex: flex-grow;*/
+            flex-grow: 3;
+            flex-basis: auto;
+        }
+
+        .skills {
+            overflow: auto;
+            width: 400px;
+            height: 400px;
+            /*width: 40%;*/
+            /*height: 400px;*/
+        }
+
+        paper-icon-button[toggles][active] {
+            color: #F00;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        li + li {
+            border-top: solid 1px #666;
+        }
+
+        .new-skill {
+            padding: 0px 15px 15px 15px;
+        }
+
+        paper-toolbar {
+            background-color: #800;
+            height: 40px;
+
+          --paper-toolbar: {
+            @apply(--layout-vertical);
+          };
+        }
+
+        .filter {
+            width:120px;
+            background-color:#fff;
+            height:30px;
+            text-align:left;
+        }
+
+        paper-input.filter {
+            --paper-input-container-focus-color: transparent;
+            --paper-input-container-underline: {
+                display: none;
+            }
+            --paper-input-container: {
+                padding-left: 5px;
+                padding-right: 5px;
+                padding-top: 5px;
+            }
+        }
+
+        paper-dialog {
+            width: 350px;
+            height: 400px;
+        }
+
+        paper-dialog div {
+            padding:0px;
+            margin:0px;
+        }
+
+        .dialog_buttons {
+            position: absolute;
+            bottom: 10px;
+        }
+
+    </style>
+
+    <template>
+        <iron-signals
+            on-iron-signal-fbupdate="_updateClassSkills">
+        </iron-signals>
+
+        <paper-header-panel>
+            <paper-toolbar>
+                <table width=100%>
+                    <tr>
+                        <td width="40">
+                            <paper-icon-button icon="add-circle-outline" style="color:white" title="test" on-click="toggle">
+                            </paper-icon-button>
+                        </td>
+                        <td><div class="paper-header">Class Skills</div></td>
+                        <td align="center"><paper-input
+                            class="filter"
+                            no-label-float
+                            label="Filter"
+                            type="text"
+                            value="{{csf::input}}">
+                        </paper-input></td>
+                        <td align="right">
+                            <paper-icon-button id="toggle" icon="remove-circle-outline" toggles on-tap="_handleEdit">
+                            </paper-icon-button>
+                        </td>
+                    </tr>
+                </table>
+            </paper-toolbar>
+            <ul>
+                <template id="csList" is="dom-repeat" items="{{classskills}}" as="item" filter="{{csFilter(csf)}}">
+                    <li>
+                        <class-skill
+                            name="{{item.name}}"
+                            text="{{item.text}}"
+                            key="{{item.__firebaseKey__}}">
+                        </class-skill>
+                    </li>
+                </template>
+            </ul>
+            <paper-dialog id="addClassSkillDialog" withBackdrop="true" modal>
+                <div class="add-skill">
+                    <paper-toolbar><div class="paper-header">Add Class Skill</div></paper-toolbar>
+                    <div style="padding:10px">
+                        <form is="iron-form" id="classskillform">
+                            <paper-input id="name_field" name="name" label="Skill Name" required>
+                            </paper-input>
+                            <paper-textarea max-rows="8" id="text_field" name="text" label="Description" required>
+                            </paper-textarea>
+                            <div class="dialog_buttons">
+                                <paper-button id="add_but" raised on-tap="_handleSubmitCS">Save</paper-button>
+                                <paper-button style="color: red !important;" raised on-tap="toggle">Cancel</paper-button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </paper-dialog>
+        </paper-header-panel>
+    </template>
+
+</dom-module>
+
+
+
+<script>
+    Polymer({
+        is: "class-skills-list",
+
+        _redraw: function() {
+            this.$.csList.render();
+        },
+
+        properties: {
+            scroll: "true",
+            classskills: {
+                type: Array,
+                notify: true
+            }
+        },
+
+        _updateClassSkills: function(e) {
+            this.classskills = app.$.classskills.fbData;
+            if(this.classskills.length == 0) {
+                this.$.toggle.active = false;
+            }
+            this._redraw();
+        },
+
+        _handleSubmitCS: function(e) {
+            if(!this.$.classskillform.validate()) return;
+            this.$.addClassSkillDialog.toggle();
+            if(this.$.toggle.active) {
+                this.$.toggle.active = false;
+                this._handleEdit(e);
+            }
+            var entry = this.$.classskillform.serialize();
+            var appcs = app.$.classskills.$.ref;
+            appcs.add(entry);
+
+            this.$.text_field.value = "";
+            this.$.name_field.value = "";
+        },
+
+        _handleEdit: function(e) {
+            if(this.classskills.length == 0) {
+                this.$.toggle.active = false;
+                return;
+            }
+            this.fire('iron-signal', {name: 'editclassskills', data: this.namespace});
+        },
+
+        csFilter: function(cs) {
+            return function(classskills) {
+                if(!cs) return true;
+                title = classskills.name.toLowerCase();
+                text = classskills.text.toLowerCase();
+                filter = cs.toLowerCase();
+                return (title.includes(filter) || text.includes(filter));
+            };
+        },
+
+        toggle: function() {
+            this.$.addClassSkillDialog.toggle();
+        }
+
+    });
+</script>

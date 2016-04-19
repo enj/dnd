@@ -1,0 +1,74 @@
+<dom-module id="class-skill">
+    <style>
+        .listing-wrapper {
+            display: flex;
+            padding: 10px;
+            white-space: pre-wrap;
+        }
+
+        button {
+            width: 100%;
+            text-align: left;
+            border: 0px;
+            background-color: #F8F8F8;
+        }
+
+        button:focus {
+            outline:0;
+        }
+
+    </style>
+
+    <template>
+        <iron-signals
+            on-iron-signal-editclassskills="toggleDel">
+        </iron-signals>
+        <table width=100% height=40><tr>
+            <td><button on-click="toggle">{{name}}</button></td>
+            <td align=right>
+                <paper-icon-button icon="expand-more" on-click="toggle" noink></paper-icon-button>
+                <iron-collapse id="delcollapse" horizontal style="float:right">
+                    <paper-icon-button style="color:#B00" id="del_but" icon="remove-circle" on-click="deleteclassskill"></paper-icon-button>
+                </iron-collapse>
+            </td>
+        </tr></table>
+        <iron-collapse id="collapse">
+        <button on-click="toggle" style="background-color:#EEE;border:0px;border-style:solid;border-color:#AAA">
+        <div class="listing-wrapper">
+            <span>{{text}}</span>
+        </div>
+        </button>
+        <iron-collapse>
+    </template>
+
+</dom-module>
+
+<script>
+    Polymer({
+        is: "class-skill",
+
+        properties: {
+            name: {
+                type: String,
+                notify: true
+            },
+            text: String,
+            key: {
+                type: String,
+                notify: true
+            }
+        },
+
+        deleteclassskill: function() {
+            app.$.classskills.$.ref.removeByKey(this.key);
+        },
+
+        toggle: function() {
+            this.$.collapse.toggle();
+        },
+
+        toggleDel: function() {
+            this.$.delcollapse.opened = app.$.classskillspage.$.toggle.active;
+        }
+    });
+</script>

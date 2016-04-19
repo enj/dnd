@@ -159,6 +159,14 @@
             namespace="feats">
         </dnd-col-data>
 
+        <dnd-doc-data id="classskills"
+            location="[[firebaseURL]]"
+            data="{{classskillsData}}"
+            user="{{user}}"
+            cid="character2"
+            namespace="classskills">
+        </dnd-doc-data>
+
         <dnd-doc-data id="as"
             location="[[firebaseURL]]"
             data="{{asData}}"
@@ -243,6 +251,12 @@
             <div class="element-padding show-combat">
                 <paper-material elevation=5 class="big">
                     <spell-list id="spellpage"></spell-list>
+                </paper-material>
+            </div>
+
+            <div class="element-padding show-combat">
+                <paper-material elevation=5 class="big">
+                    <class-skills-list id="classskillspage"></class-skills-list>
                 </paper-material>
             </div>
 
