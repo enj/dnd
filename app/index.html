@@ -67,7 +67,7 @@
 
         paper-material.wide {
             overflow: auto;
-            min-width: 710px;
+            min-width: 350px;
             max-width: 1460px;
             height: 172px;
         }
@@ -291,7 +291,9 @@
 
         function resize() {
             var width = window.innerWidth;
-            if(width > 720 && width <= 1125) {
+            if(width > 360 && width <= 754) {
+                width = 350
+            } else if(width > 720 && width <= 1125) {
                 width = 720;
             } else if(width > 1125 && width <= 1495) {
                 width = 1090
