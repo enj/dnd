@@ -57,7 +57,7 @@
             },
             hitbonus: {
                 type: String,
-                computed: "_hitbonus(weaponattribute)",
+                computed: "_hitbonus(weaponattribute,bonus)",
                 notify: true
             },
             damage: {
@@ -80,22 +80,27 @@
         },
 
         _update: function(e) {
-            if (e.detail === "as" && app.asData[this.weaponattribute] !== undefined) {
+            if (e.detail === "as" && app.asData[this.weaponattribute.toLowerCase()] !== undefined) {
                 // hack to recalculate computed score value
                 var k = this.weaponattribute;
                 this.weaponattribute = undefined;
                 this.weaponattribute = k;
+            } else if (e.detail === "hp") {
+
+                var k = this.bonus;
+                this.bonus = undefined;
+                this.bonus = k;
             }
         },
 
         _damage: function(dc, dt, att) {
-            var modd = (att === "None")? 0 : app.$.asf.getModifier(att);
+            var modd = (att === "None")? 0 : app.$.asf.getModifier(this.weaponattribute.toLowerCase());
             var sign = (modd >= 0)? "+" : "-";
             return "" + dc + "d" + dt + sign + Math.abs(modd);
         },
 
-        _hitbonus: function(att) {
-            var attInt = ((att === "None"))? 0 : app.$.asf.getModifier(att);
+        _hitbonus: function(att,bonus) {
+            var attInt = (att === "None")? 0 : app.$.asf.getModifier(this.weaponattribute.toLowerCase());
             var bp = app.hpData.pb;
             var value = (attInt + bp);
             return ((value >= 0)? "+":"") + value;
