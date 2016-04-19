@@ -103,7 +103,7 @@
         _hitbonus: function(att,bonus) {
             var attInt = (att === "None")? 0 : app.$.asf.getModifier(this.weaponattribute.toLowerCase());
             var pbb = app.hpData.pb;
-            var value = (attInt + pbb);
+            var value = (attInt + pbb + parseInt(this.bonus));
             return ((value >= 0)? "+":"") + value;
         }
     });
