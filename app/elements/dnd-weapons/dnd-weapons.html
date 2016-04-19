@@ -63,7 +63,7 @@
 	        	<ul>
 	        		<table width=100% style="color: #888;"><tr>
 	                    <td>Name</td>
-                        <td width=70 align=center>Attr</td>
+                        <!-- <td width=70 align=center>Attr</td> -->
 	                    <td width=40 align=center>Atk</td>
                         <td width=70 align=center>Dmg</td>
                         <td width=30 align=center>Weight</td>
@@ -195,6 +195,10 @@
                 this._handleEdit(e);
             }
             var entry = this.$.aform.serialize();
+            entry['bonus'] = ~~entry['bonus'];
+            entry['dicetype'] = ~~entry['dicetype'];
+            entry['dicecount'] = ~~entry['dicecount'];
+            entry['weight'] = ~~entry['weight'];
             var appweapons = app.$.weapons.$.ref;
             appweapons.add(entry);
 
