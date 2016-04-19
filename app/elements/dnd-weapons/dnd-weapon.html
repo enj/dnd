@@ -11,10 +11,10 @@
         <table width=100% height=40><tr>
             <td id="tb">{{name}}</td>
             <td width=70 align=center>{{weaponattribute}}</td>
-            <td width=50 align=center>[[hitbonus]]</td>
-            <td width=50 align=left>[[damage]]</td>
+            <td width=40 align=center>[[hitbonus]]</td>
+            <td width=70 align=left>[[damage]]</td>
             <td width=50 align=center>{{weight}}</td>
-            <td width=15 align=right>
+            <td width=5 align=right>
                 <iron-collapse id="delcollapse" horizontal>
                 <paper-icon-button style="color:#B00" id="del_but" icon="remove-circle" class="delete" on-click="deleteWeapon">
                 </paper-icon-button>
@@ -94,15 +94,16 @@
         },
 
         _damage: function(dc, dt, att) {
-            var modd = (att === "None")? 0 : app.$.asf.getModifier(this.weaponattribute.toLowerCase());
+            var mod = (att === "None")? 0 : app.$.asf.getModifier(this.weaponattribute.toLowerCase());
+            var modd = parseInt(mod) + parseInt(this.bonus);
             var sign = (modd >= 0)? "+" : "-";
             return "" + dc + "d" + dt + sign + Math.abs(modd);
         },
 
         _hitbonus: function(att,bonus) {
             var attInt = (att === "None")? 0 : app.$.asf.getModifier(this.weaponattribute.toLowerCase());
-            var bp = app.hpData.pb;
-            var value = (attInt + bp);
+            var pbb = app.hpData.pb;
+            var value = (attInt + pbb);
             return ((value >= 0)? "+":"") + value;
         }
     });
